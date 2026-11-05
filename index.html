@@ -1,230 +1,453 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>TASKUP</title>
+<title>TASKUP | MARK TECH</title>
 <style>
 *{box-sizing:border-box}
-body{margin:0;font-family:Arial;background:#f1f4fa;color:#222}
-header{background:#172554;color:white;padding:20px;font-size:24px;font-weight:bold}
-main{padding:15px;padding-bottom:100px}
-.box{background:white;padding:17px;border-radius:13px;margin:12px 0;box-shadow:0 2px 8px #ddd}
-input,select,button{width:100%;padding:13px;margin:7px 0;border:1px solid #ddd;border-radius:8px}
-button{background:#2563eb;color:white;border:0;font-weight:bold}
-h2{color:#172554}
-.hidden{display:none}
-.bottom{position:fixed;bottom:0;background:white;width:100%;padding:10px;box-shadow:0 0 10px #bbb}
-nav{display:none}
-nav button{width:48%;margin:3px 1%}
-.task{border:1px solid #ddd;padding:12px;border-radius:10px;margin:10px 0}
-.small{font-size:13px;color:#666}
+body{margin:0;font-family:Arial;background:#0c1020;color:white}
+:root{--r:#ff375f;--b:#3478ff;--g:#00cf91}
+button{border:0;padding:12px;border-radius:9px;background:var(--b);color:white;font-weight:bold;cursor:pointer}
+input,select,textarea{width:100%;padding:13px;margin:7px 0;background:#202941;border:1px solid #394662;border-radius:9px;color:white}
+.auth{max-width:400px;margin:45px auto;padding:22px;background:#151d31;border-radius:18px}
+.auth h1{text-align:center;color:var(--g)}
+.auth button{width:100%;margin-top:10px}
+.auth p{color:#aebbd1;cursor:pointer;text-align:center}
+#app{display:none}
+header{padding:17px;background:#151d31;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:5}
+.logo{font-size:23px;font-weight:bold;color:var(--g)}
+nav{display:flex;gap:7px;overflow:auto;padding:12px;background:#151d31}
+nav button{white-space:nowrap;background:#26334e}
+main{padding:15px;max-width:950px;margin:auto}
+.page{display:none}
+.page.active{display:block}
+.card{background:#151d31;padding:17px;border-radius:14px;margin:12px 0;border:1px solid #273653}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px}
+.stat{padding:17px;border-radius:12px;background:#202c45}
+.stat b{display:block;color:var(--g);font-size:22px;margin-top:8px}
+h2{color:var(--g)}
+.small{color:#aab8d0;font-size:13px}
+.tag{color:var(--g)}
+.danger{background:var(--r)}
+.good{background:var(--g);color:#071b16}
+.secondary{background:#46536d}
+.task button{margin-top:8px}
+hr{border:0;border-top:1px solid #35415b;margin:15px 0}
+footer{text-align:center;padding:25px;color:#8998b2}
 </style>
 </head>
 <body>
 
-<header>🚀 TASKUP</header>
+<div class="auth" id="auth">
+<h1>✦ TASKUP</h1>
+<p>Complete Tasks. Earn Rewards.</p>
+
+<div id="signupBox">
+<h2>Create Account</h2>
+<input id="name" placeholder="Full name">
+<input id="email" type="email" placeholder="Email address">
+<input id="password" type="password" placeholder="Password (minimum 8 characters)">
+<button onclick="signup()">CREATE ACCOUNT</button>
+<p onclick="switchAuth()">Already have an account? Login</p>
+</div>
+
+<div id="loginBox" style="display:none">
+<h2>Welcome Back</h2>
+<input id="loginEmail" type="email" placeholder="Email address">
+<input id="loginPassword" type="password" placeholder="Password">
+<button onclick="login()">LOGIN</button>
+<p onclick="switchAuth()">Create an account</p>
+</div>
+<p id="authMsg"></p>
+</div>
+
+<div id="app">
+<header>
+<div class="logo">✦ TASKUP</div>
+<button class="danger" onclick="logout()">Logout</button>
+</header>
+
+<nav>
+<button onclick="page('home')">Home</button>
+<button onclick="page('tasks')">Tasks</button>
+<button onclick="page('advertise')">Advertise</button>
+<button onclick="page('wallet')">Wallet</button>
+<button onclick="page('referral')">Referral</button>
+<button id="adminTab" onclick="page('admin')" style="display:none">Admin</button>
+</nav>
 
 <main>
-<section id="auth" class="box">
-<h2>Welcome to TASKUP</h2>
 
-<div id="signupForm">
-<h3>Create Account</h3>
-<input id="fullName" placeholder="Full name">
-<input id="signupEmail" type="email" placeholder="Email address">
-<input id="signupPassword" type="password" placeholder="Password">
-
-<select id="signupRole">
-<option value="earner">Earner</option>
-<option value="advertiser">Advertiser</option>
-</select>
-<button onclick="signup()">CREATE ACCOUNT</button>
-<p>Already registered? <a href="#" onclick="showLogin()">Login</a></p>
+<section id="home" class="page active">
+<h2>Dashboard</h2>
+<p id="welcome">Welcome to TASKUP</p>
+<div class="grid">
+<div class="stat">Available balance<b id="balance">₦0</b></div>
+<div class="stat">Pending earnings<b id="pending">₦0</b></div>
+<div class="stat">Completed tasks<b id="completed">0</b></div>
+<div class="stat">Campaigns<b id="campaignCount">0</b></div>
 </div>
-
-<div id="login" class="hidden">
-<h3>Login</h3>
-<input id="loginEmail" placeholder="Email">
-<input id="loginPass" type="password" placeholder="Password">
-<button onclick="login()">LOGIN</button>
-<p><a href="#" onclick="showSignup()">Create account</a></p>
+<div class="card">
+<h2>Start Earning</h2>
+<p>Complete available tasks and submit your proof to earn rewards.</p>
+<button onclick="page('tasks')">Explore Tasks</button>
+</div>
+<div class="card">
+<h2>Advertise With TASKUP</h2>
+<p>Create campaigns and get people to engage with your business.</p>
+<button onclick="page('advertise')">Create Campaign</button>
 </div>
 </section>
 
-<section id="dashboard" class="hidden">
-
-<div class="box">
-<h2 id="welcome">Welcome!</h2>
-<p id="userRole"></p>
-<button onclick="logout()">LOGOUT</button>
-</div>
-
-<div id="home" class="box">
-<h2>🏠 Home</h2>
-<p>Welcome to TASKUP.</p>
-<p>Complete tasks and earn rewards or advertise your business.</p>
-</div>
-
-<div id="tasks" class="box hidden">
+<section id="tasks" class="page">
 <h2>Available Tasks</h2>
+<input id="search" placeholder="Search tasks..." oninput="renderTasks()">
 <div id="taskList"></div>
-</div>
-
-<div id="campaigns" class="box hidden">
-<h2>My Campaigns</h2>
-<div id="campaignList"></div>
-<button onclick="showPage('create')">CREATE CAMPAIGN</button>
-</div>
-
-<div id="create" class="box hidden">
-<h2>Create Task</h2>
-<input id="taskTitle" placeholder="Task title">
-<input id="taskLink" placeholder="Task link">
-<select id="taskType">
-<option>Follow</option>
-<option>Like</option>
-<option>Comment</option>
-<option>Share</option>
-<option>View</option>
-</select>
-<input id="taskReward" type="number" placeholder="Reward per person (₦)">
-<button onclick="createTask()">PUBLISH TASK</button>
-</div>
-
-<div id="wallet" class="box hidden">
-<h2>💰 My Wallet</h2>
-<h3>₦<span id="balance">0</span></h3>
-<p>Available balance</p>
-<p class="small">Demo wallet only. No real deposits or withdrawals.</p>
-</div>
-
-<div id="admin" class="box hidden">
-<h2>👑 Admin Dashboard</h2>
-<p>Welcome, Administrator.</p>
-<h3>Registered Users: <span id="usersCount">0</span></h3>
-<h3>Published Tasks: <span id="adminTasks">0</span></h3>
-<div id="adminList"></div>
-</div>
-
 </section>
-</main>
 
-<div id="bottom" class="bottom hidden">
-<nav id="menu">
-<button onclick="showPage('home')">Home</button>
-<button onclick="showPage('tasks')">Tasks</button>
-<button onclick="showPage('campaigns')">Campaigns</button>
-<button onclick="showPage('wallet')">Wallet</button>
-<button id="adminButton" class="hidden" onclick="showPage('admin')">Admin</button>
-</nav>
-<button onclick="toggleMenu()">☰ MENU</button>
+<section id="advertise" class="page">
+<h2>Advertiser Dashboard</h2>
+<div class="grid">
+<div class="stat">Advertising balance<b id="adBalance">₦0</b></div>
+<div class="stat">My campaigns<b id="myCampaigns">0</b></div>
+</div>
+
+<div class="card">
+<h3>Deposit Funds</h3>
+<input id="depositAmount" type="number" placeholder="Amount in Naira">
+<button onclick="deposit()">Request Deposit Approval</button>
+<p class="small">Your request will appear in the admin dashboard.</p>
+</div>
+
+<div class="card">
+<h3>Create Campaign</h3>
+<select id="type">
+<option>Instagram Follow</option>
+<option>Instagram Like</option>
+<option>Instagram Comment</option>
+<option>TikTok Follow</option>
+<option>TikTok Like</option>
+<option>YouTube Subscribe</option>
+<option>YouTube Like</option>
+<option>Facebook Follow</option>
+<option>Share Post</option>
+<option>Website Signup</option>
+<option>Telegram Join</option>
+<option>Custom Task</option>
+</select>
+<input id="taskTitle" placeholder="Campaign title">
+<input id="taskLink" placeholder="Task link">
+<textarea id="instructions" placeholder="Task instructions"></textarea>
+<input id="quantity" type="number" placeholder="Number of participants">
+<input id="reward" type="number" placeholder="Reward per participant (₦)">
+<p>Total budget: <b id="budget">₦0</b></p>
+<button onclick="createCampaign()">CREATE CAMPAIGN</button>
+</div>
+<div class="card">
+<h3>My Campaigns</h3>
+<div id="campaignList"></div>
+</div>
+</section>
+
+<section id="wallet" class="page">
+<h2>My Wallet</h2>
+<div class="grid">
+<div class="stat">Available<b id="walletAvailable">₦0</b></div>
+<div class="stat">Pending<b id="walletPending">₦0</b></div>
+</div>
+<div class="card">
+<h3>Withdraw Funds</h3>
+<input id="bank" placeholder="Bank name">
+<input id="accountName" placeholder="Account name">
+<input id="accountNumber" placeholder="Account number">
+<input id="withdrawAmount" type="number" placeholder="Amount">
+<button onclick="withdraw()">REQUEST WITHDRAWAL</button>
+</div>
+<div class="card">
+<h3>Transactions</h3>
+<div id="transactions"></div>
+</div>
+</section>
+
+<section id="referral" class="page">
+<h2>Referral Programme</h2>
+<div class="card">
+<p>Your referral code:</p>
+<h2 id="refCode"></h2>
+<p>Invite people to join TASKUP using your referral code.</p>
+<button onclick="copyReferral()">COPY CODE</button>
+</div>
+</section>
+
+<section id="admin" class="page">
+<h2>Admin Control Centre</h2>
+<div class="grid">
+<div class="stat">Users<b id="userCount">0</b></div>
+<div class="stat">Tasks<b id="adminTaskCount">0</b></div>
+<div class="stat">Deposits<b id="depositCount">0</b></div>
+<div class="stat">Withdrawals<b id="withdrawCount">0</b></div>
+</div>
+<div class="card"><h3>Deposit Requests</h3><div id="adminDeposits"></div></div>
+<div class="card"><h3>Task Submissions</h3><div id="adminSubmissions"></div></div>
+<div class="card"><h3>Withdrawal Requests</h3><div id="adminWithdrawals"></div></div>
+<div class="card"><h3>Manage Users</h3><div id="adminUsers"></div></div>
+<div class="card"><h3>Manage Tasks</h3><div id="adminTasks"></div></div>
+</section>
+
+</main>
+<footer>© TASKUP — Powered by MARK TECH</footer>
 </div>
 
 <script>
 const ADMIN="markobinna120@gmail.com";
+const ADMIN_PASS="MarkAdmin123!";
 let users=JSON.parse(localStorage.getItem("tu_users")||"[]");
 let tasks=JSON.parse(localStorage.getItem("tu_tasks")||"[]");
-let current=JSON.parse(localStorage.getItem("tu_current")||"null");
+let deposits=JSON.parse(localStorage.getItem("tu_deposits")||"[]");
+let withdrawals=JSON.parse(localStorage.getItem("tu_withdrawals")||"[]");
+let submissions=JSON.parse(localStorage.getItem("tu_submissions")||"[]");
+let transactions=JSON.parse(localStorage.getItem("tu_transactions")||"[]");
+let current=null;
 
 function save(){
 localStorage.setItem("tu_users",JSON.stringify(users));
 localStorage.setItem("tu_tasks",JSON.stringify(tasks));
+localStorage.setItem("tu_deposits",JSON.stringify(deposits));
+localStorage.setItem("tu_withdrawals",JSON.stringify(withdrawals));
+localStorage.setItem("tu_submissions",JSON.stringify(submissions));
+localStorage.setItem("tu_transactions",JSON.stringify(transactions));
 }
 
-function showSignup(){
-signupBox(true);
-}
-function showLogin(){
-signupBox(false);
-}
-function signupBox(show){
-document.getElementById("signup").classList.toggle("hidden",!show);
-document.getElementById("login").classList.toggle("hidden",show);
+function money(n){return "₦"+Number(n||0).toLocaleString("en-NG")}
+function me(){return users.find(u=>u.email===current)}
+function msg(t){document.getElementById("authMsg").textContent=t}
+
+function switchAuth(){
+let a=document.getElementById("signupBox");
+let b=document.getElementById("loginBox");
+a.style.display=a.style.display==="none"?"block":"none";
+b.style.display=b.style.display==="none"?"block":"none";
+msg("");
 }
 
-function signup(){
-let n=name.value.trim(),e=email.value.trim().toLowerCase(),p=password.value,r=role.value;
-if(!n||!e||!p)return alert("Fill all fields");
-if(p.length<6)return alert("Password must have at least 6 characters");
-if(users.some(u=>u.email===e))return alert("Email already registered");
-users.push({name:n,email:e,password:p,role:r,balance:0});
-save();
-alert("Account created! You can now login.");
-showLogin();
+async function hash(p){
+let h=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(p));
+return Array.from(new Uint8Array(h)).map(x=>x.toString(16).padStart(2,"0")).join("");
 }
 
-function login(){
-let e=loginEmail.value.trim().toLowerCase(),p=loginPass.value;
-let u=users.find(x=>x.email===e&&x.password===p);
-if(!u)return alert("Incorrect email or password");
-current=u;
-localStorage.setItem("tu_current",JSON.stringify(current));
-openApp();
+async function signup(){
+let n=document.getElementById("name").value.trim();
+let e=document.getElementById("email").value.trim().toLowerCase();
+let p=document.getElementById("password").value;
+if(!n||!e||p.length<8)return msg("Enter your details and use at least 8 characters for your password.");
+if(users.some(u=>u.email===e)||e===ADMIN)return msg("This email is already registered.");
+users.push({name:n,email:e,pass:await hash(p),balance:0,pending:0,ad:0,banned:false,completed:0,ref:"TU"+Math.random().toString(36).slice(2,8).toUpperCase()});
+save();msg("Account created! You can now log in.");switchAuth();
+}
+
+async function login(){
+let e=document.getElementById("loginEmail").value.trim().toLowerCase();
+let p=document.getElementById("loginPassword").value;
+if(e===ADMIN&&p===ADMIN_PASS){current=ADMIN;openApp();return}
+let u=users.find(x=>x.email===e&&x.pass);
+if(!u||u.pass!==await hash(p))return msg("Incorrect email or password.");
+if(u.banned)return msg("This account has been suspended.");
+current=e;openApp();
 }
 
 function openApp(){
-if(!current)return;
-auth.classList.add("hidden");
-dashboard.classList.remove("hidden");
-bottom.classList.remove("hidden");
-welcome.textContent="Welcome, "+current.name;
-userRole.textContent="Account: "+current.role;
-adminButton.classList.toggle("hidden",current.email!==ADMIN);
-update();
-showPage("home");
+document.getElementById("auth").style.display="none";
+document.getElementById("app").style.display="block";
+document.getElementById("adminTab").style.display=current===ADMIN?"block":"none";
+refresh();page("home");
 }
 
 function logout(){
 current=null;
-localStorage.removeItem("tu_current");
-dashboard.classList.add("hidden");
-bottom.classList.add("hidden");
-auth.classList.remove("hidden");
+document.getElementById("app").style.display="none";
+document.getElementById("auth").style.display="block";
 }
 
-function toggleMenu(){
-menu.style.display=menu.style.display==="block"?"none":"block";
+function page(id){
+document.querySelectorAll(".page").forEach(x=>x.classList.remove("active"));
+document.getElementById(id).classList.add("active");
+refresh();
 }
 
-function showPage(id){
-["home","tasks","campaigns","create","wallet","admin"].forEach(x=>document.getElementById(x).classList.add("hidden"));
-if(id==="admin"&&current.email!==ADMIN)return alert("Access denied");
-document.getElementById(id).classList.remove("hidden");
-menu.style.display="none";
-update();
+function refresh(){
+if(current===ADMIN){adminRefresh();return}
+let u=me();if(!u)return;
+document.getElementById("welcome").textContent="Welcome, "+u.name;
+document.getElementById("balance").textContent=money(u.balance);
+document.getElementById("pending").textContent=money(u.pending);
+document.getElementById("completed").textContent=u.completed;
+document.getElementById("campaignCount").textContent=tasks.filter(t=>t.owner===current).length;
+document.getElementById("adBalance").textContent=money(u.ad);
+document.getElementById("myCampaigns").textContent=tasks.filter(t=>t.owner===current).length;
+document.getElementById("walletAvailable").textContent=money(u.balance);
+document.getElementById("walletPending").textContent=money(u.pending);
+document.getElementById("refCode").textContent=u.ref;
+renderTasks();
+renderCampaigns();
+renderTransactions();
 }
 
-function createTask(){
-if(current.role!=="advertiser")return alert("Only advertisers can create tasks");
-let title=taskTitle.value.trim(),link=taskLink.value.trim(),reward=Number(taskReward.value);
-if(!title||!link||reward<=0)return alert("Enter valid task details");
-tasks.push({title,link,type:taskType.value,reward,owner:current.email});
-save();
-alert("Task published!");
-taskTitle.value=taskLink.value=taskReward.value="";
-showPage("campaigns");
+function renderTasks(){
+let q=(document.getElementById("search")?.value||"").toLowerCase();
+let list=tasks.filter(t=>t.status==="active"&&t.owner!==current&&t.title.toLowerCase().includes(q));
+document.getElementById("taskList").innerHTML=list.map(t=>`
+<div class="card task">
+<h3>${t.title}</h3><p>${t.type}</p>
+<p>${t.instructions}</p>
+<p>Reward: <b class="tag">${money(t.reward)}</b></p>
+<p>Available: ${t.left} participants</p>
+<button onclick="startTask('${t.id}')">COMPLETE TASK</button>
+</div>`).join("")||"<p>No available tasks right now.</p>";
 }
 
-function update(){
-balance.textContent=current.balance||0;
-taskList.innerHTML=tasks.map((t,i)=>`
-<div class="task">
-<b>${t.title}</b><p>${t.type}</p>
-<p>Reward: ₦${t.reward}</p>
-<a href="${t.link}" target="_blank">Open task</a>
-</div>`).join("")||"No tasks available yet.";
-
-campaignList.innerHTML=tasks.filter(t=>t.owner===current.email).map(t=>`
-<div class="task">${t.title} - ₦${t.reward}</div>`).join("")||"No campaigns yet.";
-
-usersCount.textContent=users.length;
-adminTasks.textContent=tasks.length;
-adminList.innerHTML=tasks.map(t=>`<div class="task">${t.title} — ${t.owner}</div>`).join("");
+function createCampaign(){
+let title=document.getElementById("taskTitle").value.trim();
+let type=document.getElementById("type").value;
+let link=document.getElementById("taskLink").value.trim();
+let instructions=document.getElementById("instructions").value.trim();
+let qty=Number(document.getElementById("quantity").value);
+let reward=Number(document.getElementById("reward").value);
+let total=qty*reward;
+let u=me();
+if(!title||!link||!qty||!reward||qty<1||reward<1)return alert("Complete all campaign details.");
+if(total>u.ad)return alert("Insufficient advertising balance. Please deposit funds.");
+u.ad-=total;
+tasks.push({id:Date.now().toString(),owner:current,title,type,link,instructions,qty,left:qty,reward,total,status:"active"});
+transactions.push({email:current,text:"Campaign budget: "+title,amount:-total});
+save();alert("Campaign created!");refresh();
 }
 
-if(current&&users.some(u=>u.email===current.email))openApp();
-else current=null;
+function renderCampaigns(){
+document.getElementById("campaignList").innerHTML=tasks.filter(t=>t.owner===current).map(t=>`
+<div class="card"><b>${t.title}</b><p>${t.type}</p><p>Remaining: ${t.left}</p><p>Budget: ${money(t.total)}</p><p>Status: ${t.status}</p></div>`).join("")||"No campaigns yet.";
+}
+
+function startTask(id){
+let t=tasks.find(x=>x.id===id);
+if(!t||t.left<=0)return alert("Task unavailable.");
+let proof=prompt("Enter your proof, such as your social media username or screenshot link:");
+if(!proof)return;
+if(submissions.some(s=>s.task===id&&s.email===current))return alert("You already submitted this task.");
+submissions.push({id:Date.now().toString(),task:id,email:current,proof,status:"pending"});
+t.left--;me().pending+=t.reward;save();refresh();
+alert("Proof submitted. Your reward is pending admin approval.");
+}
+
+function deposit(){
+let amount=Number(document.getElementById("depositAmount").value);
+if(amount<100||!Number.isFinite(amount))return alert("Minimum deposit is ₦100.");
+deposits.push({id:Date.now().toString(),email:current,amount,status:"pending"});
+save();alert("Deposit request submitted. Contact the platform administrator for payment instructions.");
+}
+
+function withdraw(){
+let u=me(),amount=Number(document.getElementById("withdrawAmount").value);
+let bank=document.getElementById("bank").value.trim();
+let name=document.getElementById("accountName").value.trim();
+let number=document.getElementById("accountNumber").value.trim();
+if(!bank||!name||!number||amount<100||amount>u.balance)return alert("Check your bank details and withdrawal amount.");
+u.balance-=amount;u.pending+=amount;
+withdrawals.push({id:Date.now().toString(),email:current,amount,bank,name,number,status:"pending"});
+transactions.push({email:current,text:"Withdrawal request",amount:-amount});
+save();refresh();alert("Withdrawal request submitted.");
+}
+
+function renderTransactions(){
+document.getElementById("transactions").innerHTML=transactions.filter(t=>t.email===current).map(t=>`<p>${t.text}: ${money(t.amount)}</p>`).join("")||"No transactions yet.";
+}
+
+function copyReferral(){
+navigator.clipboard?.writeText(me().ref);
+alert("Referral code: "+me().ref);
+}
+
+function adminRefresh(){
+document.getElementById("userCount").textContent=users.length;
+document.getElementById("adminTaskCount").textContent=tasks.length;
+document.getElementById("depositCount").textContent=deposits.filter(x=>x.status==="pending").length;
+document.getElementById("withdrawCount").textContent=withdrawals.filter(x=>x.status==="pending").length;
+
+document.getElementById("adminDeposits").innerHTML=deposits.map(d=>`
+<div class="card">${d.email} — ${money(d.amount)} — ${d.status}
+${d.status==="pending"?`<button onclick="approveDeposit('${d.id}')">Approve</button> <button class="danger" onclick="rejectDeposit('${d.id}')">Reject</button>`:""}
+</div>`).join("")||"No deposits.";
+
+document.getElementById("adminSubmissions").innerHTML=submissions.map(s=>`
+<div class="card">${s.email}<p>Task: ${tasks.find(t=>t.id===s.task)?.title||"Deleted task"}</p>
+<p>Proof: ${s.proof}</p><p>Status: ${s.status}</p>
+${s.status==="pending"?`<button onclick="reviewSubmission('${s.id}',true)">Approve</button> <button class="danger" onclick="reviewSubmission('${s.id}',false)">Reject</button>`:""}
+</div>`).join("")||"No submissions.";
+
+document.getElementById("adminWithdrawals").innerHTML=withdrawals.map(w=>`
+<div class="card">${w.email}<p>${money(w.amount)} — ${w.bank}</p>
+<p>${w.name} | ${w.number}</p><p>${w.status}</p>
+${w.status==="pending"?`<button onclick="reviewWithdrawal('${w.id}',true)">Approve</button> <button class="danger" onclick="reviewWithdrawal('${w.id}',false)">Reject</button>`:""}
+</div>`).join("")||"No withdrawals.";
+
+document.getElementById("adminUsers").innerHTML=users.map(u=>`
+<div class="card">${u.name} — ${u.email} — ${u.banned?"BANNED":"ACTIVE"}
+<button onclick="banUser('${u.email}')">${u.banned?"Unban":"Ban"}</button></div>`).join("");
+
+document.getElementById("adminTasks").innerHTML=tasks.map(t=>`
+<div class="card">${t.title} — ${t.status}
+<button class="danger" onclick="deleteTask('${t.id}')">Delete</button></div>`).join("");
+}
+
+function approveDeposit(id){
+let d=deposits.find(x=>x.id===id),u=users.find(x=>x.email===d.email);
+if(!d||!u||d.status!=="pending")return;
+u.ad+=d.amount;d.status="approved";
+transactions.push({email:d.email,text:"Deposit approved",amount:d.amount});
+save();adminRefresh();
+}
+
+function rejectDeposit(id){
+let d=deposits.find(x=>x.id===id);
+if(d)d.status="rejected";
+save();adminRefresh();
+}
+
+function reviewSubmission(id,ok){
+let s=submissions.find(x=>x.id===id),u=users.find(x=>x.email===s.email);
+let t=tasks.find(x=>x.id===s.task);
+if(!s||!u||s.status!=="pending")return;
+if(ok){u.pending-=t.reward;u.balance+=t.reward;u.completed++;
+transactions.push({email:s.email,text:"Task reward approved",amount:t.reward});}
+else{u.pending-=t.reward;if(t)t.left++;}
+s.status=ok?"approved":"rejected";
+save();adminRefresh();
+}
+
+function reviewWithdrawal(id,ok){
+let w=withdrawals.find(x=>x.id===id),u=users.find(x=>x.email===w.email);
+if(!w||!u||w.status!=="pending")return;
+u.pending-=w.amount;
+if(!ok)u.balance+=w.amount;
+w.status=ok?"approved":"rejected";
+save();adminRefresh();
+}
+
+function banUser(email){
+let u=users.find(x=>x.email===email);
+if(u){u.banned=!u.banned;save();adminRefresh();}
+}
+
+function deleteTask(id){
+tasks=tasks.filter(t=>t.id!==id);save();adminRefresh();
+}
+
+document.getElementById("quantity").addEventListener("input",calculate);
+document.getElementById("reward").addEventListener("input",calculate);
+function calculate(){
+let total=Number(document.getElementById("quantity").value)*Number(document.getElementById("reward").value);
+document.getElementById("budget").textContent=money(total);
+}
 </script>
 </body>
   </html>
