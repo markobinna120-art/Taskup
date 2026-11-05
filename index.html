@@ -1,153 +1,229 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>TASKUP</title>
 <style>
-*{box-sizing:border-box}body{margin:0;font-family:Arial;background:#f3f5fa;color:#222}
-header{background:#172554;color:white;padding:18px;font-size:23px;font-weight:bold}
-main{padding:18px;padding-bottom:100px}.box{background:white;padding:18px;border-radius:13px;margin:12px 0;box-shadow:0 2px 8px #ddd}
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial;background:#f1f4fa;color:#222}
+header{background:#172554;color:white;padding:20px;font-size:24px;font-weight:bold}
+main{padding:15px;padding-bottom:100px}
+.box{background:white;padding:17px;border-radius:13px;margin:12px 0;box-shadow:0 2px 8px #ddd}
 input,select,button{width:100%;padding:13px;margin:7px 0;border:1px solid #ddd;border-radius:8px}
 button{background:#2563eb;color:white;border:0;font-weight:bold}
-.hidden{display:none}.bottom{position:fixed;bottom:0;background:white;width:100%;padding:12px;box-shadow:0 -2px 10px #ddd}
-nav{display:none;background:white;padding:10px}.menu{background:#172554}
-nav button{width:48%;display:inline-block}
+h2{color:#172554}
+.hidden{display:none}
+.bottom{position:fixed;bottom:0;background:white;width:100%;padding:10px;box-shadow:0 0 10px #bbb}
+nav{display:none}
+nav button{width:48%;margin:3px 1%}
+.task{border:1px solid #ddd;padding:12px;border-radius:10px;margin:10px 0}
+.small{font-size:13px;color:#666}
 </style>
 </head>
 <body>
 
-<header>TASKUP</header>
+<header>🚀 TASKUP</header>
 
 <main>
 <section id="auth" class="box">
 <h2>Welcome to TASKUP</h2>
+
 <div id="signup">
 <h3>Create Account</h3>
 <input id="name" placeholder="Full name">
 <input id="email" type="email" placeholder="Email address">
-<input id="pass" type="password" placeholder="Password">
+<input id="password" type="password" placeholder="Password">
 <select id="role">
 <option value="earner">Earner</option>
 <option value="advertiser">Advertiser</option>
 </select>
-<button onclick="signup()">Sign Up</button>
+<button onclick="signup()">CREATE ACCOUNT</button>
 <p>Already registered? <a href="#" onclick="showLogin()">Login</a></p>
 </div>
+
 <div id="login" class="hidden">
 <h3>Login</h3>
-<input id="le" type="email" placeholder="Email">
-<input id="lp" type="password" placeholder="Password">
-<button onclick="login()">Login</button>
-<button onclick="forgot()">Forgot Password?</button>
+<input id="loginEmail" placeholder="Email">
+<input id="loginPass" type="password" placeholder="Password">
+<button onclick="login()">LOGIN</button>
 <p><a href="#" onclick="showSignup()">Create account</a></p>
 </div>
 </section>
 
-<section id="app" class="hidden">
+<section id="dashboard" class="hidden">
+
 <div class="box">
 <h2 id="welcome">Welcome!</h2>
-<p id="account"></p>
-<button onclick="logout()">Logout</button>
+<p id="userRole"></p>
+<button onclick="logout()">LOGOUT</button>
 </div>
 
 <div id="home" class="box">
-<h2>Home</h2>
-<p>Welcome to TASKUP. Earn by completing tasks or advertise your business.</p>
+<h2>🏠 Home</h2>
+<p>Welcome to TASKUP.</p>
+<p>Complete tasks and earn rewards or advertise your business.</p>
 </div>
 
 <div id="tasks" class="box hidden">
 <h2>Available Tasks</h2>
-<p>Tasks will appear here when published.</p>
+<div id="taskList"></div>
 </div>
 
 <div id="campaigns" class="box hidden">
 <h2>My Campaigns</h2>
-<p>Your advertising campaigns will appear here.</p>
+<div id="campaignList"></div>
+<button onclick="showPage('create')">CREATE CAMPAIGN</button>
+</div>
+
+<div id="create" class="box hidden">
+<h2>Create Task</h2>
+<input id="taskTitle" placeholder="Task title">
+<input id="taskLink" placeholder="Task link">
+<select id="taskType">
+<option>Follow</option>
+<option>Like</option>
+<option>Comment</option>
+<option>Share</option>
+<option>View</option>
+</select>
+<input id="taskReward" type="number" placeholder="Reward per person (₦)">
+<button onclick="createTask()">PUBLISH TASK</button>
 </div>
 
 <div id="wallet" class="box hidden">
-<h2>Wallet</h2>
-<p>Available Balance: ₦0</p>
-<p>Pending Balance: ₦0</p>
+<h2>💰 My Wallet</h2>
+<h3>₦<span id="balance">0</span></h3>
+<p>Available balance</p>
+<p class="small">Demo wallet only. No real deposits or withdrawals.</p>
 </div>
 
 <div id="admin" class="box hidden">
-<h2>Admin Dashboard</h2>
-<p>Admin controls will be connected to the secure backend.</p>
+<h2>👑 Admin Dashboard</h2>
+<p>Welcome, Administrator.</p>
+<h3>Registered Users: <span id="usersCount">0</span></h3>
+<h3>Published Tasks: <span id="adminTasks">0</span></h3>
+<div id="adminList"></div>
 </div>
+
 </section>
 </main>
 
-<div id="navigation" class="bottom hidden">
-<nav id="nav">
-<button onclick="page('home')">Home</button>
-<button onclick="page('tasks')">Tasks</button>
-<button onclick="page('campaigns')">Campaigns</button>
-<button onclick="page('wallet')">Wallet</button>
-<button id="adminBtn" class="hidden" onclick="page('admin')">Admin</button>
+<div id="bottom" class="bottom hidden">
+<nav id="menu">
+<button onclick="showPage('home')">Home</button>
+<button onclick="showPage('tasks')">Tasks</button>
+<button onclick="showPage('campaigns')">Campaigns</button>
+<button onclick="showPage('wallet')">Wallet</button>
+<button id="adminButton" class="hidden" onclick="showPage('admin')">Admin</button>
 </nav>
-<button class="menu" onclick="toggleMenu()">☰ MENU</button>
+<button onclick="toggleMenu()">☰ MENU</button>
 </div>
 
-<script type="module">
-import{initializeApp}from"https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
-import{getAuth,createUserWithEmailAndPassword,signInWithEmailAndPassword,sendEmailVerification,sendPasswordResetEmail,signOut,onAuthStateChanged}from"https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
-
-
-const app=initializeApp(firebaseConfig),auth=getAuth(app);
-const $=id=>document.getElementById(id);
+<script>
 const ADMIN="markobinna120@gmail.com";
+let users=JSON.parse(localStorage.getItem("tu_users")||"[]");
+let tasks=JSON.parse(localStorage.getItem("tu_tasks")||"[]");
+let current=JSON.parse(localStorage.getItem("tu_current")||"null");
 
-window.showLogin=()=>{$("signup").classList.add("hidden");$("login").classList.remove("hidden")};
-window.showSignup=()=>{$("login").classList.add("hidden");$("signup").classList.remove("hidden")};
-
-window.signup=async()=>{
-try{
-let user=await createUserWithEmailAndPassword(auth,$("email").value,$("pass").value);
-await sendEmailVerification(user.user);
-alert("Verification email sent! Check your inbox, verify your email, then log in.");
-await signOut(auth);
-}catch(e){alert(e.message)}
-};
-
-window.login=async()=>{
-try{
-let user=await signInWithEmailAndPassword(auth,$("le").value,$("lp").value);
-if(!user.user.emailVerified){await sendEmailVerification(user.user);await signOut(auth);alert("Please verify your email using the link sent to your inbox.");}
-}catch(e){alert(e.message)}
-};
-
-window.forgot=async()=>{
-try{await sendPasswordResetEmail(auth,$("le").value);alert("Password reset email sent.");}
-catch(e){alert(e.message)}
-};
-
-window.logout=()=>signOut(auth);
-window.toggleMenu=()=>$("nav").style.display=$("nav").style.display==="block"?"none":"block";
-
-window.page=id=>{
-["home","tasks","campaigns","wallet","admin"].forEach(x=>$(x).classList.add("hidden"));
-$(id).classList.remove("hidden");
-$("nav").style.display="none";
-};
-
-onAuthStateChanged(auth,user=>{
-if(user&&user.emailVerified){
-$("auth").classList.add("hidden");
-$("app").classList.remove("hidden");
-$("navigation").classList.remove("hidden");
-$("welcome").textContent="Welcome, "+(user.displayName||user.email);
-$("account").textContent=user.email;
-let isAdmin=user.email.toLowerCase()===ADMIN;
-$("adminBtn").classList.toggle("hidden",!isAdmin);
-page("home");
-}else{
-$("app").classList.add("hidden");
-$("navigation").classList.add("hidden");
-$("auth").classList.remove("hidden");
+function save(){
+localStorage.setItem("tu_users",JSON.stringify(users));
+localStorage.setItem("tu_tasks",JSON.stringify(tasks));
 }
-});
+
+function showSignup(){
+signupBox(true);
+}
+function showLogin(){
+signupBox(false);
+}
+function signupBox(show){
+document.getElementById("signup").classList.toggle("hidden",!show);
+document.getElementById("login").classList.toggle("hidden",show);
+}
+
+function signup(){
+let n=name.value.trim(),e=email.value.trim().toLowerCase(),p=password.value,r=role.value;
+if(!n||!e||!p)return alert("Fill all fields");
+if(p.length<6)return alert("Password must have at least 6 characters");
+if(users.some(u=>u.email===e))return alert("Email already registered");
+users.push({name:n,email:e,password:p,role:r,balance:0});
+save();
+alert("Account created! You can now login.");
+showLogin();
+}
+
+function login(){
+let e=loginEmail.value.trim().toLowerCase(),p=loginPass.value;
+let u=users.find(x=>x.email===e&&x.password===p);
+if(!u)return alert("Incorrect email or password");
+current=u;
+localStorage.setItem("tu_current",JSON.stringify(current));
+openApp();
+}
+
+function openApp(){
+if(!current)return;
+auth.classList.add("hidden");
+dashboard.classList.remove("hidden");
+bottom.classList.remove("hidden");
+welcome.textContent="Welcome, "+current.name;
+userRole.textContent="Account: "+current.role;
+adminButton.classList.toggle("hidden",current.email!==ADMIN);
+update();
+showPage("home");
+}
+
+function logout(){
+current=null;
+localStorage.removeItem("tu_current");
+dashboard.classList.add("hidden");
+bottom.classList.add("hidden");
+auth.classList.remove("hidden");
+}
+
+function toggleMenu(){
+menu.style.display=menu.style.display==="block"?"none":"block";
+}
+
+function showPage(id){
+["home","tasks","campaigns","create","wallet","admin"].forEach(x=>document.getElementById(x).classList.add("hidden"));
+if(id==="admin"&&current.email!==ADMIN)return alert("Access denied");
+document.getElementById(id).classList.remove("hidden");
+menu.style.display="none";
+update();
+}
+
+function createTask(){
+if(current.role!=="advertiser")return alert("Only advertisers can create tasks");
+let title=taskTitle.value.trim(),link=taskLink.value.trim(),reward=Number(taskReward.value);
+if(!title||!link||reward<=0)return alert("Enter valid task details");
+tasks.push({title,link,type:taskType.value,reward,owner:current.email});
+save();
+alert("Task published!");
+taskTitle.value=taskLink.value=taskReward.value="";
+showPage("campaigns");
+}
+
+function update(){
+balance.textContent=current.balance||0;
+taskList.innerHTML=tasks.map((t,i)=>`
+<div class="task">
+<b>${t.title}</b><p>${t.type}</p>
+<p>Reward: ₦${t.reward}</p>
+<a href="${t.link}" target="_blank">Open task</a>
+</div>`).join("")||"No tasks available yet.";
+
+campaignList.innerHTML=tasks.filter(t=>t.owner===current.email).map(t=>`
+<div class="task">${t.title} - ₦${t.reward}</div>`).join("")||"No campaigns yet.";
+
+usersCount.textContent=users.length;
+adminTasks.textContent=tasks.length;
+adminList.innerHTML=tasks.map(t=>`<div class="task">${t.title} — ${t.owner}</div>`).join("");
+}
+
+if(current&&users.some(u=>u.email===current.email))openApp();
+else current=null;
 </script>
 </body>
   </html>
