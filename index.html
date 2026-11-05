@@ -2,674 +2,158 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>TASKUP | Earn & Advertise</title>
-
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>TASKUP</title>
 <style>
-:root {
-  --red: rgb(255,55,95);
-  --blue: rgb(45,105,255);
-  --green: rgb(0,205,140);
-  --ink: #101322;
-  --muted: #777b89;
-  --line: #e5e7ee;
-}
-
-* {
-  box-sizing: border-box;
-}
-
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  color: var(--ink);
-  background: white;
-}
-
-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 18px 20px;
-  border-bottom: 1px solid var(--line);
-  position: sticky;
-  top: 0;
-  background: white;
-  z-index: 3;
-}
-
-.logo {
-  font-size: 25px;
-  font-weight: 900;
-  background: linear-gradient(90deg,var(--red),var(--blue),var(--green));
-  color: transparent;
-  background-clip: text;
-}
-
-button {
-  cursor: pointer;
-  font-weight: bold;
-}
-
-.icon {
-  background: white;
-  border: 1px solid var(--line);
-  border-radius: 50%;
-  padding: 12px;
-  font-size: 18px;
-}
-
-nav {
-  display: none;
-  padding: 15px;
-  gap: 18px;
-  flex-wrap: wrap;
-  border-bottom: 1px solid var(--line);
-}
-
-nav.open {
-  display: flex;
-}
-
-nav a {
-  text-decoration: none;
-  color: var(--ink);
-  font-weight: bold;
-}
-
-main {
-  max-width: 750px;
-  margin: auto;
-  padding: 22px 18px 45px;
-}
-
-.page {
-  display: none;
-}
-
-.page.active {
-  display: block;
-}
-
-.heading {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 25px;
-}
-
-h1 {
-  font-size: 35px;
-}
-
-.plus {
-  background: linear-gradient(120deg,var(--red),var(--blue));
-  color: white;
-  border: 0;
-  border-radius: 15px;
-  width: 48px;
-  height: 48px;
-  font-size: 27px;
-}
-
-.balance {
-  padding: 25px;
-  border-radius: 24px;
-  background: linear-gradient(
-    120deg,
-    rgba(255,55,95,.12),
-    rgba(45,105,255,.12),
-    rgba(0,205,140,.12)
-  );
-  margin-bottom: 30px;
-}
-
-.muted {
-  color: var(--muted);
-}
-
-.balance h2 {
-  font-size: 38px;
-}
-
-.primary {
-  background: linear-gradient(100deg,var(--blue),var(--red));
-  color: white;
-  border: 0;
-  border-radius: 12px;
-  padding: 15px;
-}
-
-.wide {
-  width: 100%;
-  font-size: 17px;
-}
-
-.section {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin: 28px 0 18px;
-}
-
-.task-list {
-  display: grid;
-  gap: 16px;
-}
-
-.card {
-  border: 1px solid var(--line);
-  border-radius: 20px;
-  padding: 18px;
-}
-
-.task-top {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-}
-
-.task-icon {
-  width: 55px;
-  height: 55px;
-  border-radius: 15px;
-  display: grid;
-  place-items: center;
-  color: white;
-  font-size: 23px;
-  font-weight: bold;
-  background: linear-gradient(130deg,var(--blue),var(--green));
-}
-
-.task-title {
-  font-size: 17px;
-  font-weight: bold;
-  margin-top: 6px;
-}
-
-.pills {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 7px;
-  margin: 15px 0;
-}
-
-.pill {
-  background: #f1f2f5;
-  padding: 7px 10px;
-  border-radius: 25px;
-  font-size: 12px;
-}
-
-.task-bottom {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.outline {
-  border: 1px solid var(--line);
-  background: white;
-  padding: 12px;
-  border-radius: 12px;
-}
-
-.field {
-  width: 100%;
-  padding: 14px;
-  margin: 10px 0 18px;
-  border: 1px solid var(--line);
-  border-radius: 12px;
-  font-size: 15px;
-}
-
-textarea.field {
-  min-height: 90px;
-}
-
-.stats {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-  margin-bottom: 25px;
-}
-
-.modal {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,.5);
-  z-index: 5;
-  align-items: end;
-}
-
-.modal.show {
-  display: flex;
-}
-
-.sheet {
-  background: white;
-  width: 100%;
-  max-height: 90vh;
-  overflow-y: auto;
-  padding: 22px;
-  border-radius: 24px 24px 0 0;
-}
-
-.sheet-head {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.empty {
-  text-align: center;
-  color: var(--muted);
-  padding: 35px 10px;
-}
-
-.toast {
-  display: none;
-  position: fixed;
-  bottom: 25px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: #111;
-  color: white;
-  padding: 13px 18px;
-  border-radius: 12px;
-  z-index: 8;
-}
-
-footer {
-  text-align: center;
-  padding: 20px;
-  border-top: 1px solid var(--line);
-  color: var(--muted);
-}
-
-@media(min-width:700px) {
-  .modal {
-    align-items: center;
-    justify-content: center;
-  }
-
-  .sheet {
-    max-width: 520px;
-    border-radius: 22px;
-  }
-}
+*{box-sizing:border-box}body{margin:0;font-family:Arial;background:#f3f5fa;color:#222}
+header{background:#172554;color:white;padding:18px;font-size:23px;font-weight:bold}
+main{padding:18px;padding-bottom:100px}.box{background:white;padding:18px;border-radius:13px;margin:12px 0;box-shadow:0 2px 8px #ddd}
+input,select,button{width:100%;padding:13px;margin:7px 0;border:1px solid #ddd;border-radius:8px}
+button{background:#2563eb;color:white;border:0;font-weight:bold}
+.hidden{display:none}.bottom{position:fixed;bottom:0;background:white;width:100%;padding:12px;box-shadow:0 -2px 10px #ddd}
+nav{display:none;background:white;padding:10px}.menu{background:#172554}
+nav button{width:48%;display:inline-block}
 </style>
 </head>
-
 <body>
 
-<header>
-  <div class="logo">✦ TASKUP</div>
-  <div>
-    <button class="icon" onclick="notify()">♧</button>
-    <button class="icon" onclick="toggleMenu()">☰</button>
-  </div>
-</header>
-
-<nav id="menu">
-  <a href="#" onclick="showPage('home')">Home</a>
-  <a href="#" onclick="showPage('tasks')">Tasks</a>
-  <a href="#" onclick="showPage('advertise')">My Campaigns</a>
-  <a href="#" onclick="showPage('wallet')">Wallet</a>
-</nav>
+<header>TASKUP</header>
 
 <main>
-
-<section id="home" class="page active">
-
-  <div class="heading">
-    <h1>Home</h1>
-    <button class="plus" onclick="showPage('advertise')">＋</button>
-  </div>
-
-  <div class="balance">
-    <p class="muted">Earning balance</p>
-    <h2>₦0.00</h2>
-    <p class="muted">Pending balance: ₦0.00</p>
-    <button class="primary wide" onclick="showPage('wallet')">
-      ↥ Withdraw
-    </button>
-  </div>
-
-  <div class="section">
-    <h2>Suggested tasks</h2>
-    <button onclick="showPage('tasks')">View all ›</button>
-  </div>
-
-  <div id="suggested" class="task-list"></div>
-
+<section id="auth" class="box">
+<h2>Welcome to TASKUP</h2>
+<div id="signup">
+<h3>Create Account</h3>
+<input id="name" placeholder="Full name">
+<input id="email" type="email" placeholder="Email address">
+<input id="pass" type="password" placeholder="Password">
+<select id="role">
+<option value="earner">Earner</option>
+<option value="advertiser">Advertiser</option>
+</select>
+<button onclick="signup()">Sign Up</button>
+<p>Already registered? <a href="#" onclick="showLogin()">Login</a></p>
+</div>
+<div id="login" class="hidden">
+<h3>Login</h3>
+<input id="le" type="email" placeholder="Email">
+<input id="lp" type="password" placeholder="Password">
+<button onclick="login()">Login</button>
+<button onclick="forgot()">Forgot Password?</button>
+<p><a href="#" onclick="showSignup()">Create account</a></p>
+</div>
 </section>
 
-<section id="tasks" class="page">
-
-  <div class="heading">
-    <h1>Tasks</h1>
-  </div>
-
-  <h2>Available tasks</h2>
-
-  <input id="search" class="field"
-    placeholder="Search tasks..."
-    oninput="renderTasks()">
-
-  <div id="allTasks" class="task-list"></div>
-
-</section>
-
-<section id="advertise" class="page">
-
-  <div class="heading">
-    <h1>My Campaigns</h1>
-    <button class="plus" onclick="openModal()">＋</button>
-  </div>
-
-  <div class="balance">
-    <p class="muted">Advertising balance</p>
-    <h2>₦0.00</h2>
-    <button class="primary wide" onclick="demo('Deposit')">
-      ↓ Deposit
-    </button>
-  </div>
-
-  <div class="stats">
-    <div class="card">
-      <p class="muted">Active tasks</p>
-      <h2 id="count">0</h2>
-    </div>
-    <div class="card">
-      <p class="muted">Total spent</p>
-      <h2>₦0</h2>
-    </div>
-  </div>
-
-  <div class="section">
-    <h2>All tasks</h2>
-    <button class="primary" onclick="openModal()">＋ Create Task</button>
-  </div>
-
-  <div id="campaigns" class="task-list">
-    <p class="empty">No campaigns created yet.</p>
-  </div>
-
-</section>
-
-<section id="wallet" class="page">
-
-  <div class="heading">
-    <h1>Wallet</h1>
-  </div>
-
-  <div class="balance">
-    <p class="muted">Available balance</p>
-    <h2>₦0.00</h2>
-    <p class="muted">Pending earnings: ₦0.00</p>
-    <button class="primary wide" onclick="demo('Withdrawal')">
-      ↥ Withdraw
-    </button>
-  </div>
-
-  <div class="stats">
-    <div class="card">
-      <p class="muted">Pending earnings</p>
-      <h2>₦0</h2>
-    </div>
-    <div class="card">
-      <p class="muted">Total withdrawn</p>
-      <h2>₦0</h2>
-    </div>
-  </div>
-
-  <h2>Transaction history</h2>
-  <p class="empty">Your transactions will appear here.</p>
-
-</section>
-
-</main>
-
-<!-- CREATE TASK FORM -->
-
-<div id="modal" class="modal">
-  <div class="sheet">
-
-    <div class="sheet-head">
-      <h2>Create a new task</h2>
-      <button class="icon" onclick="closeModal()">×</button>
-    </div>
-
-    <label>Task type</label>
-    <select id="type" class="field">
-      <option>YouTube subscription</option>
-      <option>TikTok like</option>
-      <option>Instagram follow</option>
-      <option>X follow</option>
-      <option>Website visit</option>
-      <option>Custom comment</option>
-    </select>
-
-    <label>Task link</label>
-    <input id="link" class="field" placeholder="https://...">
-
-    <label>Instructions</label>
-    <textarea id="instructions" class="field"
-      placeholder="Explain what workers should do"></textarea>
-
-    <label>Participants</label>
-    <input id="people" class="field" type="number"
-      value="50" min="1" oninput="calculate()">
-
-    <label>Reward per person (₦)</label>
-    <input id="reward" class="field" type="number"
-      value="5" min="1" oninput="calculate()">
-
-    <label>Total budget</label>
-    <input id="budget" class="field" readonly value="₦250">
-
-    <button class="primary wide" onclick="createTask()">
-      Continue
-    </button>
-
-  </div>
+<section id="app" class="hidden">
+<div class="box">
+<h2 id="welcome">Welcome!</h2>
+<p id="account"></p>
+<button onclick="logout()">Logout</button>
 </div>
 
-<div id="toast" class="toast"></div>
+<div id="home" class="box">
+<h2>Home</h2>
+<p>Welcome to TASKUP. Earn by completing tasks or advertise your business.</p>
+</div>
 
-<footer>
-  © 2026 TASKUP
-  <br><br>
-  Built by MARK TECH
-</footer>
+<div id="tasks" class="box hidden">
+<h2>Available Tasks</h2>
+<p>Tasks will appear here when published.</p>
+</div>
 
-<script>
-const tasks = [
-  {
-    platform:"YouTube",
-    icon:"▶",
-    title:"Subscribe to a YouTube channel",
-    slots:320,
-    reward:6
-  },
-  {
-    platform:"TikTok",
-    icon:"♪",
-    title:"Like a TikTok post",
-    slots:192,
-    reward:4
-  },
-  {
-    platform:"Instagram",
-    icon:"◎",
-    title:"Follow an Instagram page",
-    slots:24,
-    reward:3
-  },
-  {
-    platform:"X",
-    icon:"𝕏",
-    title:"Follow a page on X",
-    slots:79,
-    reward:4
-  },
-  {
-    platform:"Website",
-    icon:"⌘",
-    title:"Visit a website",
-    slots:198,
-    reward:4
-  }
-];
+<div id="campaigns" class="box hidden">
+<h2>My Campaigns</h2>
+<p>Your advertising campaigns will appear here.</p>
+</div>
 
-let campaigns = [];
+<div id="wallet" class="box hidden">
+<h2>Wallet</h2>
+<p>Available Balance: ₦0</p>
+<p>Pending Balance: ₦0</p>
+</div>
 
-function money(amount) {
-  return "₦" + Number(amount).toLocaleString("en-NG");
+<div id="admin" class="box hidden">
+<h2>Admin Dashboard</h2>
+<p>Admin controls will be connected to the secure backend.</p>
+</div>
+</section>
+</main>
+
+<div id="navigation" class="bottom hidden">
+<nav id="nav">
+<button onclick="page('home')">Home</button>
+<button onclick="page('tasks')">Tasks</button>
+<button onclick="page('campaigns')">Campaigns</button>
+<button onclick="page('wallet')">Wallet</button>
+<button id="adminBtn" class="hidden" onclick="page('admin')">Admin</button>
+</nav>
+<button class="menu" onclick="toggleMenu()">☰ MENU</button>
+</div>
+
+<script type="module">
+import{initializeApp}from"https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
+import{getAuth,createUserWithEmailAndPassword,signInWithEmailAndPassword,sendEmailVerification,sendPasswordResetEmail,signOut,onAuthStateChanged}from"https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
+
+const firebaseConfig={
+apiKey:"YOUR_API_KEY",
+authDomain:"YOUR_PROJECT.firebaseapp.com",
+projectId:"YOUR_PROJECT_ID",
+appId:"YOUR_APP_ID"
+};
+
+const app=initializeApp(firebaseConfig),auth=getAuth(app);
+const $=id=>document.getElementById(id);
+const ADMIN="markobinna120@gmail.com";
+
+window.showLogin=()=>{$("signup").classList.add("hidden");$("login").classList.remove("hidden")};
+window.showSignup=()=>{$("login").classList.add("hidden");$("signup").classList.remove("hidden")};
+
+window.signup=async()=>{
+try{
+let user=await createUserWithEmailAndPassword(auth,$("email").value,$("pass").value);
+await sendEmailVerification(user.user);
+alert("Verification email sent! Check your inbox, verify your email, then log in.");
+await signOut(auth);
+}catch(e){alert(e.message)}
+};
+
+window.login=async()=>{
+try{
+let user=await signInWithEmailAndPassword(auth,$("le").value,$("lp").value);
+if(!user.user.emailVerified){await sendEmailVerification(user.user);await signOut(auth);alert("Please verify your email using the link sent to your inbox.");}
+}catch(e){alert(e.message)}
+};
+
+window.forgot=async()=>{
+try{await sendPasswordResetEmail(auth,$("le").value);alert("Password reset email sent.");}
+catch(e){alert(e.message)}
+};
+
+window.logout=()=>signOut(auth);
+window.toggleMenu=()=>$("nav").style.display=$("nav").style.display==="block"?"none":"block";
+
+window.page=id=>{
+["home","tasks","campaigns","wallet","admin"].forEach(x=>$(x).classList.add("hidden"));
+$(id).classList.remove("hidden");
+$("nav").style.display="none";
+};
+
+onAuthStateChanged(auth,user=>{
+if(user&&user.emailVerified){
+$("auth").classList.add("hidden");
+$("app").classList.remove("hidden");
+$("navigation").classList.remove("hidden");
+$("welcome").textContent="Welcome, "+(user.displayName||user.email);
+$("account").textContent=user.email;
+let isAdmin=user.email.toLowerCase()===ADMIN;
+$("adminBtn").classList.toggle("hidden",!isAdmin);
+page("home");
+}else{
+$("app").classList.add("hidden");
+$("navigation").classList.add("hidden");
+$("auth").classList.remove("hidden");
 }
-
-function taskCard(task) {
-  return `
-    <div class="card">
-      <div class="task-top">
-        <div class="task-icon">${task.icon}</div>
-        <div>
-          <div class="muted">${task.platform} · Task</div>
-          <div class="task-title">${task.title}</div>
-        </div>
-      </div>
-
-      <div class="pills">
-        <span class="pill">♧ ${task.slots} slots left</span>
-        <span class="pill">✓ Verification in 24–48h</span>
-      </div>
-
-      <div class="task-bottom">
-        <div>
-          <div class="muted">Earn</div>
-          <strong>${money(task.reward)}</strong>
-        </div>
-        <button class="outline"
-          onclick="startTask('${task.title.replace(/'/g, "")}')">
-          Start Task
-        </button>
-      </div>
-    </div>
-  `;
-}
-
-function renderTasks() {
-  const query = document.getElementById("search").value.toLowerCase();
-
-  const filtered = tasks.filter(task =>
-    (task.title + task.platform).toLowerCase().includes(query)
-  );
-
-  document.getElementById("allTasks").innerHTML =
-    filtered.map(taskCard).join("") ||
-    '<p class="empty">No matching tasks found.</p>';
-}
-
-function showPage(id) {
-  document.querySelectorAll(".page").forEach(page => {
-    page.classList.remove("active");
-  });
-
-  document.getElementById(id).classList.add("active");
-  document.getElementById("menu").classList.remove("open");
-
-  if (id === "tasks") renderTasks();
-}
-
-function toggleMenu() {
-  document.getElementById("menu").classList.toggle("open");
-}
-
-function notify() {
-  toast("No new notifications.");
-}
-
-function toast(message) {
-  const box = document.getElementById("toast");
-  box.textContent = message;
-  box.style.display = "block";
-
-  clearTimeout(window.toastTimer);
-
-  window.toastTimer = setTimeout(() => {
-    box.style.display = "none";
-  }, 2500);
-}
-
-function demo(action) {
-  toast(action + " requires backend setup.");
-}
-
-function startTask(name) {
-  toast("Selected: " + name + ". Login is not connected yet.");
-}
-
-function openModal() {
-  document.getElementById("modal").classList.add("show");
-}
-
-function closeModal() {
-  document.getElementById("modal").classList.remove("show");
-}
-
-function calculate() {
-  const people = Number(document.getElementById("people").value);
-  const reward = Number(document.getElementById("reward").value);
-
-  document.getElementById("budget").value =
-    money(people * reward);
-}
-
-function createTask() {
-  const type = document.getElementById("type").value;
-  const link = document.getElementById("link").value.trim();
-  const instructions = document.getElementById("instructions").value.trim();
-  const people = Number(document.getElementById("people").value);
-  const reward = Number(document.getElementById("reward").value);
-
-  if (!link.startsWith("https://") ||
-      !instructions || people < 1 || reward < 1) {
-    toast("Please complete all fields correctly.");
-    return;
-  }
-
-  campaigns.push({
-    type,
-    link,
-    instructions,
-    people,
-    reward
-  });
-
-  document.getElementById("count").textContent = campaigns.length;
-
-  document.getElementById("campaigns").innerHTML =
-    campaigns.map(c => `
-      <div class="card">
-        <h3>${c.type}</h3>
-        <p class="muted">${c.people} participants</p>
-        <strong>${money(c.people * c.reward)} budget</strong>
-        <p class="pill">Draft preview</p>
-      </div>
-    `).join("");
-
-  closeModal();
-  toast("Campaign preview created!");
-}
-
-document.getElementById("suggested").innerHTML =
-  tasks.slice(0,3).map(taskCard).join("");
-
-renderTasks();
-calculate();
+});
 </script>
-
 </body>
   </html>
