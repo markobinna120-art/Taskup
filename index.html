@@ -1,198 +1,252 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>TASKUP | MARK TECH</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TaskAll - Earn by Completing Tasks</title>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script>
+  emailjs.init("eOnK3qvUFiw89dhdV");
+  const EMAILJS_SERVICE = "service_147bn6m";
+  const EMAILJS_TEMPLATE = "template_kndbrqg";
+</script>
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-:root{--orange:#ff8a00;--green:#10b981;--blue:#3978f6;--dark:#172235;--bg:#f4f6fa;--white:#fff;--muted:#788397}
-body{font-family:Arial,sans-serif;background:var(--bg);color:var(--dark)}
-button,input,select,textarea{font:inherit}
-button{cursor:pointer;border:0}
-.hidden{display:none!important}
-.auth{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;background:linear-gradient(135deg,#172235,#253d62)}
-.authbox{background:white;padding:28px;border-radius:18px;width:100%;max-width:390px}
-.logo{font-size:27px;font-weight:900;color:var(--blue);letter-spacing:1px}
-.logo span{color:var(--orange)}
-.small{color:var(--muted);font-size:13px;margin-top:7px}
-input,select,textarea{width:100%;padding:13px;border:1px solid #dce2eb;border-radius:9px;margin:7px 0 13px;background:white;outline:none}
-input:focus,textarea:focus,select:focus{border-color:var(--blue)}
-label{font-size:13px;font-weight:bold}
-.btn{padding:12px 16px;border-radius:9px;background:var(--blue);color:white;font-weight:bold}
-.btn.orange{background:var(--orange)}
-.btn.green{background:var(--green)}
-.btn.red{background:#e5484d}
-.btn.light{background:#edf2ff;color:var(--blue)}
-.btn.full{width:100%}
-.link{color:var(--blue);cursor:pointer;font-weight:bold}
-.authbox h2{margin:22px 0 8px}
-header{background:white;padding:13px 17px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 2px 12px #1722350c;position:sticky;top:0;z-index:10}
-header .logo{font-size:23px}
-.menu-wrap{position:relative}
-.menu-btn{background:var(--dark);color:white;padding:11px 16px;border-radius:9px;font-weight:bold}
-.menu{position:absolute;right:0;top:47px;background:white;width:205px;border-radius:12px;box-shadow:0 8px 25px #0002;padding:8px;display:none;z-index:20}
-.menu.show{display:block}
-.menu button{width:100%;text-align:left;padding:12px;border-radius:8px;background:white;color:var(--dark)}
-.menu button:hover{background:#f0f4ff;color:var(--blue)}
-main{max-width:1050px;margin:auto;padding:20px 15px 50px}
-.welcome{margin:12px 0 20px}
-.welcome h2{font-size:22px}
-.welcome p{color:var(--muted);font-size:13px;margin-top:6px}
-.balance{background:linear-gradient(120deg,#172235,#28508a);color:white;padding:23px;border-radius:17px;margin-bottom:25px;position:relative;overflow:hidden}
-.balance:after{content:"₦";position:absolute;right:20px;top:-15px;font-size:120px;color:#ffffff12;font-weight:bold}
-.balance p{font-size:13px;color:#d7e4ff}
-.balance h1{font-size:34px;margin:12px 0}
-.balance .btn{background:white;color:#172235;position:relative;z-index:1}
-.section-title{display:flex;align-items:center;justify-content:space-between;margin:24px 0 14px}
-.section-title h3{font-size:18px}
-.task-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:13px}
-.card{background:white;border-radius:13px;padding:17px;border:1px solid #edf0f5}
-.task-card{display:flex;flex-direction:column;gap:10px}
-.task-top{display:flex;justify-content:space-between;align-items:center}
-.tag{font-size:11px;background:#edf2ff;color:var(--blue);padding:6px 9px;border-radius:20px}
-.reward{font-weight:bold;color:var(--green);font-size:17px}
-.task-card h4{font-size:16px}
-.task-card p{font-size:12px;color:var(--muted)}
-.task-card .btn{margin-top:auto}
-.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-top:20px}
-.step{background:white;border-radius:12px;padding:17px}
-.step b{display:block;margin-bottom:8px;color:var(--blue)}
-.page-title{margin:10px 0 20px}
-.page-title p{font-size:13px;color:var(--muted);margin-top:5px}
-.panel{background:white;padding:18px;border-radius:13px;margin-bottom:15px}
-.panel h3{margin-bottom:14px}
-.row{display:flex;gap:10px;flex-wrap:wrap}
-.row>*{flex:1;min-width:120px}
-.item{padding:13px 0;border-bottom:1px solid #edf0f5}
-.item:last-child{border:0}
-.item p{font-size:12px;color:var(--muted);margin-top:5px}
-.badge{font-size:11px;padding:5px 8px;border-radius:20px;background:#fff3df;color:#a45a00}
-.badge.ok{background:#e2f9ee;color:#07844e}
-.badge.no{background:#ffe8e8;color:#d22}
-.notice{background:#fff8e9;color:#885600;padding:12px;border-radius:9px;font-size:12px;margin-bottom:13px}
-footer{text-align:center;color:var(--muted);font-size:12px;padding:25px}
-.empty{text-align:center;padding:25px;color:var(--muted)}
-@media(max-width:500px){main{padding:14px 12px 35px}.balance h1{font-size:30px}.authbox{padding:22px}}
+*{margin:0;padding:0;box-sizing:border-box;font-family:Inter,system-ui,Arial,sans-serif}
+body{background:#fff;color:#111;max-width:480px;margin:auto;min-height:100vh;padding-bottom:80px}
+header{position:sticky;top:0;background:#fff;display:flex;justify-content:space-between;align-items:center;padding:14px 16px;z-index:10}
+.logo{font-size:28px;font-weight:900;color:#FF6B00;letter-spacing:-1px}
+.logo span{color:#111}
+.icon-btn{width:38px;height:38px;border:1px solid #eee;border-radius:50%;background:#fff;display:grid;place-items:center;cursor:pointer;font-size:18px}
+.page{padding:0 16px;display:none}
+.page.active{display:block}
+h1{font-size:32px;letter-spacing:-1px;margin:6px 0 16px}
+.balance{background:#FFF1E6;border-radius:16px;padding:18px}
+.balance small{color:#666;font-size:13px}
+.balance h2{font-size:36px;margin:6px 0}
+.balance p{font-size:13px;color:#666;margin-bottom:14px}
+.balance p b{color:#111}
+.btn-orange{width:100%;background:#FF6B00;color:#fff;border:0;padding:14px;border-radius:12px;font-weight:700;font-size:15px;cursor:pointer}
+.btn-green{width:100%;background:#0A7A42;color:#fff;border:0;padding:10px;border-radius:10px;font-weight:700;cursor:pointer}
+.btn-red{width:100%;background:#FFE8E8;color:#C00;border:0;padding:10px;border-radius:10px;font-weight:700;cursor:pointer;margin-top:6px}
+.row{display:flex;justify-content:space-between;align-items:center;margin:22px 0 12px}
+.row a{color:#FF6B00;text-decoration:none;font-weight:700;font-size:13px}
+.card{border:1px solid #eee;border-radius:16px;padding:14px;margin-bottom:12px;display:flex;gap:12px;align-items:flex-start}
+.card .thumb{width:52px;height:52px;background:#FFF1E6;border-radius:12px;display:grid;place-items:center;font-size:26px;flex-shrink:0}
+.card h3{font-size:15px;line-height:1.3}
+.card small{color:#888;font-size:12px}
+.pill{display:inline-flex;gap:4px;background:#F5F5F5;padding:4px 8px;border-radius:20px;font-size:11px;font-weight:600;margin-top:6px}
+.card-foot{display:flex;justify-content:space-between;align-items:center;margin-top:10px}
+.btn-outline{border:1px solid #ddd;background:#fff;padding:8px 14px;border-radius:20px;font-weight:700;cursor:pointer}
+.stat{border:1px solid #eee;border-radius:16px;padding:14px;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center}
+.stat b{font-size:22px;display:block;margin-top:4px}
+.stat span{color:#666;font-size:13px}
+.search{display:flex;gap:8px;margin-bottom:14px}
+.search input{flex:1;padding:12px 14px;border:1px solid #eee;border-radius:12px;outline:none}
+.empty{text-align:center;padding:30px 10px;color:#666}
+.empty .ic{width:70px;height:70px;background:#FFF1E6;border-radius:18px;display:grid;place-items:center;font-size:32px;margin:0 auto 12px}
+.ref-link{display:flex;border:1px solid #eee;border-radius:12px;overflow:hidden;margin:16px 0}
+.ref-link input{flex:1;border:0;padding:12px;outline:none;font-size:13px}
+.ref-link button{background:#FF6B00;color:#fff;border:0;padding:0 18px;font-weight:700;cursor:pointer}
+.form label{font-size:13px;font-weight:700;display:block;margin:14px 0 6px}
+.form input,.form select{width:100%;padding:13px;background:#F5F5F5;border:0;border-radius:12px;outline:none}
+.tx{border:1px solid #eee;border-radius:14px;padding:12px;display:flex;justify-content:space-between;margin-bottom:10px;align-items:center}
+.badge{background:#E8F5E9;color:#0A7A42;padding:3px 8px;border-radius:20px;font-size:11px;font-weight:700}
+.badge.admin{background:#111;color:#fff}
+#sidebar{position:fixed;inset:0;background:rgba(0,0,0,.4);display:none;z-index:20}
+#sidebar.open{display:block}
+.side{width:78%;max-width:320px;height:100%;background:#F6F6F0;padding:18px}
+.side a{display:flex;gap:12px;padding:11px 10px;border-radius:12px;text-decoration:none;color:#333;margin-bottom:4px}
+.side a.active{background:#fff;color:#FF6B00;font-weight:700}
+nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;background:#fff;border-top:1px solid #eee;display:flex;justify-content:space-around;padding:10px 0;z-index:15}
+nav button{border:0;background:none;font-size:20px;cursor:pointer;padding:6px 14px;border-radius:10px}
+nav button.active{background:#FFF1E6}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.5);display:none;place-items:center;z-index:30;padding:16px}
+.modal.open{display:grid}
+.modal-box{background:#fff;width:100%;max-width:400px;border-radius:18px;padding:20px}
+.toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:#111;color:#fff;padding:10px 16px;border-radius:20px;font-size:13px;display:none;z-index:40}
+.auth-box{border:1px solid #eee;border-radius:18px;padding:18px;margin-top:10px}
+.switch{text-align:center;margin-top:14px;font-size:13px}
+.switch b{color:#FF6B00;cursor:pointer}
+.admin-card{border:1px solid #FFE0B2;background:#FFF8F0;border-radius:16px;padding:14px;margin-bottom:12px}
+.tabs{display:flex;gap:8px;margin:12px 0}
+.tabs button{flex:1;padding:10px;border:1px solid #eee;background:#fff;border-radius:20px;font-weight:700;cursor:pointer}
+.tabs button.active{background:#111;color:#fff}
 </style>
 </head>
 <body>
-<div id="auth" class="auth">
-<div class="authbox">
-<div class="logo">TASK<span>UP</span></div>
-<p class="small">MARK TECH · Complete Tasks. Earn Rewards.</p>
-<div id="loginBox">
-<h2>Welcome back 👋</h2>
-<p class="small">Login to your TASKUP account.</p>
-<label>Email address</label><input id="loginEmail" type="email" placeholder="Enter email">
-<label>Password</label><input id="loginPass" type="password" placeholder="Enter password">
-<button class="btn full" onclick="login()">Login</button>
-<p class="small" style="text-align:center;margin-top:17px">Don't have an account? <span class="link" onclick="showAuth('signup')">Create account</span></p>
+<header><div class="logo">Task<span>All</span></div><div style="display:flex;gap:8px"><span id="adminBadge" style="display:none" class="badge admin">ADMIN</span><button class="icon-btn" onclick="showToast('No new notifications')">🔔</button><button class="icon-btn" onclick="toggleSidebar(true)">☰</button></div></header>
+
+<div id="page-auth" class="page active">
+<h1>Welcome to<br>TaskAll</h1>
+<div class="auth-box" id="loginBox">
+<h2>Login</h2><p style="color:#666;font-size:13px;margin-bottom:14px">Earn by completing simple tasks.</p>
+<div class="form"><label>Email</label><input id="loginUser" placeholder="you@gmail.com"><label>Password</label><input id="loginPass" type="password" placeholder="••••••"></div>
+<button class="btn-orange" style="margin-top:16px" onclick="sendCodeAndLogin()">Login</button>
+<div class="switch">No account? <b onclick="toggleAuth(false)">Create account</b></div>
+<p style="font-size:11px;color:#999;text-align:center;margin-top:12px">Admin: markobinna120@gmail.com<br>No code needed for Admin</p>
 </div>
-<div id="signupBox" class="hidden">
-<h2>Create account</h2>
-<p class="small">Join TASKUP and get started.</p>
-<label>Full name</label><input id="regName" placeholder="Your full name">
-<label>Email address</label><input id="regEmail" type="email" placeholder="Your email">
-<label>Password</label><input id="regPass" type="password" placeholder="Create password">
-<button class="btn full" onclick="signup()">Create account</button>
-<p class="small" style="text-align:center;margin-top:17px">Already registered? <span class="link" onclick="showAuth('login')">Login</span></p>
+<div class="auth-box" id="signupBox" style="display:none">
+<h2>Create Account</h2><p style="color:#666;font-size:13px;margin-bottom:14px">Join TaskAll and start earning today.</p>
+<div class="form"><label>Full Name</label><input id="regName" placeholder="Mark Obinna"><label>Email</label><input id="regEmail" placeholder="you@gmail.com"><label>Username</label><input id="regUsername" placeholder="mark123"><label>Password</label><input id="regPass" type="password" placeholder="••••••"><label>Referral Code (optional)</label><input id="regRef" placeholder="354066"></div>
+<button class="btn-orange" style="margin-top:16px" onclick="sendCodeAndSignup()">Create Account</button>
+<div class="switch">Already have account? <b onclick="toggleAuth(true)">Login</b></div>
 </div>
 </div>
+
+<div id="page-admin" class="page">
+<h1>Admin Panel</h1><p style="font-size:13px;color:#666;margin-bottom:12px">Logged in as <b>markobinna120@gmail.com</b> • Owner</p>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px">
+<div class="stat" style="margin:0"><div><span>Total Users</span><b id="adminUsers">0</b></div><span>👥</span></div>
+<div class="stat" style="margin:0"><div><span>Pending Proofs</span><b id="adminPending">0</b></div><span>📝</span></div>
+<div class="stat" style="margin:0"><div><span>Pending Withdrawals</span><b id="adminWithdraw">0</b></div><span>💰</span></div>
+<div class="stat" style="margin:0"><div><span>Total Paid Out</span><b>₦<span id="adminPaid">0</span></b></div><span>✅</span></div>
 </div>
-<div id="app" class="hidden">
-<header>
-<div class="logo">TASK<span>UP</span></div>
-<div class="menu-wrap">
-<button class="menu-btn" onclick="toggleMenu()">☰ MENU</button>
-<div class="menu" id="menu">
-<button onclick="go('home')">🏠 Home</button>
-<button onclick="go('tasks')">📋 Find Tasks</button>
-<button onclick="go('advertise')">📢 Advertise</button>
-<button onclick="go('wallet')">💰 My Wallet</button>
-<button onclick="go('referrals')">🎁 Referrals</button>
-<button id="adminMenu" class="hidden" onclick="go('admin')">⚙️ Admin Panel</button>
-<button onclick="logout()">🚪 Logout</button>
+<div class="tabs"><button id="tab-proofs" class="active" onclick="switchAdminTab('proofs')">Proofs</button><button id="tab-withdrawals" onclick="switchAdminTab('withdrawals')">Withdrawals</button><button id="tab-users" onclick="switchAdminTab('users')">Users</button></div>
+<div id="admin-proofs"></div><div id="admin-withdrawals" style="display:none"></div><div id="admin-users" style="display:none"></div>
+<div class="row"><h3>All Tasks</h3><button class="btn-orange" style="width:auto;padding:8px 14px;border-radius:20px" onclick="openModal('createModal')">+ Create Task</button></div>
+<div id="adminTasksList"></div>
 </div>
-</div>
-</header>
-<main>
-<section id="home" class="view">
-<div class="welcome"><h2 id="welcomeName">Welcome!</h2><p>Complete tasks and earn rewards with TASKUP.</p></div>
-<div class="balance">
-<p>AVAILABLE BALANCE</p>
-<h1 id="homeBalance">₦0.00</h1>
-<button class="btn" onclick="go('wallet')">Withdraw funds →</button>
-</div>
-<div class="section-title"><h3>Featured Tasks</h3><button class="btn light" onclick="go('tasks')">View All Tasks →</button></div>
-<div class="task-grid" id="featuredTasks"></div>
-<div class="section-title"><h3>How TASKUP Works</h3></div>
-<div class="steps">
-<div class="step"><b>01 · Create Account</b><p class="small">Register and access your TASKUP dashboard.</p></div>
-<div class="step"><b>02 · Complete Tasks</b><p class="small">Choose available tasks and submit your proof.</p></div>
-<div class="step"><b>03 · Earn Rewards</b><p class="small">Approved task rewards are added to your balance.</p></div>
-</div>
-<div class="panel" style="margin-top:20px"><h3>Want to promote your business?</h3><p class="small" style="margin-bottom:13px">Create campaigns and reach more people through TASKUP.</p><button class="btn orange" onclick="go('advertise')">Start Advertising</button></div>
-</section>
-<section id="tasks" class="view hidden">
-<div class="page-title"><h2>Find Tasks</h2><p>Choose a task, complete it and submit your proof.</p></div>
-<input id="taskSearch" placeholder="Search tasks..." oninput="renderTasks()">
-<div class="task-grid" id="allTasks"></div>
-</section>
-<section id="advertise" class="view hidden">
-<div class="page-title"><h2>Advertiser Centre</h2><p>Promote your social media pages and grow your audience.</p></div>
-<div class="panel">
-<h3>Create a Campaign</h3>
-<label>Campaign title</label><input id="campTitle" placeholder="e.g. Follow my Instagram page">
-<label>Platform</label><select id="campPlatform"><option>Instagram</option><option>Facebook</option><option>TikTok</option><option>YouTube</option><option>Telegram</option><option>Website</option></select>
-<label>Task link</label><input id="campLink" placeholder="Paste your link">
-<div class="row">
-<div><label>Reward per task (₦)</label><input id="campReward" type="number" min="1" value="5" oninput="calculateBudget()"></div>
-<div><label>Task quantity</label><input id="campQty" type="number" min="1" value="10" oninput="calculateBudget()"></div>
-</div>
-<div class="notice" id="budgetDisplay">Estimated campaign budget: ₦50</div>
-<button class="btn full" onclick="createCampaign()">Launch Campaign</button>
-</div>
-<div class="panel"><h3>My Campaigns</h3><div id="myCampaigns"></div></div>
-</section>
-<section id="wallet" class="view hidden">
-<div class="page-title"><h2>My Wallet</h2><p>Manage your TASKUP funds.</p></div>
-<div class="panel">
-<p class="small">AVAILABLE BALANCE</p><h2 id="walletBalance" style="margin:8px 0 18px;color:var(--green)">₦0.00</h2>
-<div class="row"><button class="btn" onclick="showBox('depositBox')">Deposit</button><button class="btn orange" onclick="showBox('withdrawBox')">Withdraw</button></div>
-</div>
-<div id="depositBox" class="panel hidden">
-<h3>Deposit Request</h3>
-<div class="notice">This is a manual deposit request. Do not send money until official payment instructions are provided.</div>
-<label>Amount (₦)</label><input id="depositAmount" type="number" min="100" placeholder="Enter amount">
-<label>Payment reference / note</label><input id="depositRef" placeholder="Payment reference">
-<button class="btn full" onclick="requestDeposit()">Submit Deposit Request</button>
-</div>
-<div id="withdrawBox" class="panel hidden">
-<h3>Request Withdrawal</h3>
-<label>Amount (₦)</label><input id="withdrawAmount" type="number" min="100" placeholder="Enter amount">
-<label>Bank name</label><input id="bankName" placeholder="Bank name">
-<label>Account number</label><input id="accountNumber" maxlength="10" placeholder="10-digit account number">
-<label>Account name</label><input id="accountName" placeholder="Account holder name">
-<button class="btn full" onclick="requestWithdrawal()">Submit Withdrawal Request</button>
-</div>
-<div class="panel"><h3>Transaction History</h3><div id="transactions"></div></div>
-</section>
-<section id="referrals" class="view hidden">
-<div class="page-title"><h2>Referral Programme 🎁</h2><p>Invite friends to join TASKUP.</p></div>
-<div class="panel">
-<h3>Your Referral Code</h3><div class="notice" id="refCode">TASKUP</div>
-<button class="btn" onclick="copyReferral()">Copy Referral Code</button>
-<p class="small" style="margin-top:13px">Referral rewards can be configured by the platform administrator. No reward is guaranteed until approved.</p>
-</div>
-</section>
-<section id="admin" class="view hidden">
-<div class="page-title"><h2>Admin Panel ⚙️</h2><p>Manage platform requests and users.</p></div>
-<div class="panel"><h3>Deposit Requests</h3><div id="adminDeposits"></div></div>
-<div class="panel"><h3>Withdrawal Requests</h3><div id="adminWithdrawals"></div></div>
-<div class="panel"><h3>Task Submissions</h3><div id="adminSubmissions"></div></div>
-<div class="panel"><h3>Campaigns</h3><div id="adminCampaigns"></div></div>
-<div class="panel"><h3>Users</h3><div id="adminUsers"></div></div>
-</section>
-</main>
-<footer>© 2026 TASKUP · Made with MARK TECH</footer>
+
+<div id="page-home" class="page">
+<h1>Home</h1>
+<div class="balance"><small>Earning balance</small><h2>₦<span id="earnBalance">0</span></h2><p>Pending balance: <b>₦<span id="pendingBal">0</span></b></p><button class="btn-orange" onclick="openModal('withdrawModal')">⬆ Withdraw</button></div>
+<div class="row"><h3>Suggested tasks</h3><a href="#" onclick="go('tasks');return false">View more ›</a></div><div id="suggestedList"></div>
   </div>
+  <div id="page-mytasks" class="page">
+<h1>My Tasks</h1>
+<div class="balance"><small>Advertising balance</small><h2>₦<span id="adBalance">0</span></h2><button class="btn-orange" style="margin-top:12px" onclick="openModal('depositModal')">⬇ Deposit</button></div>
+<div class="stat"><div><span>Active Tasks</span><b id="activeCount">0</b></div><span>📋</span></div>
+<div class="stat"><div><span>Total Spent</span><b>₦<span id="totalSpent">0</span></b></div><span>💳</span></div>
+<div class="row"><h3>All tasks</h3><button class="btn-orange" style="width:auto;padding:8px 14px;border-radius:20px" onclick="openModal('createModal')">+ Create Task</button></div><div id="myTasksList"></div>
+</div>
+
+<div id="page-tasks" class="page">
+<h1>Tasks</h1><h3 style="margin-bottom:12px">Available Tasks</h3>
+<div class="search"><input id="searchInput" placeholder="🔍 Search tasks..." oninput="renderTasks()"><button class="icon-btn">⚙️</button></div><div id="tasksList"></div>
+</div>
+
+<div id="page-wallet" class="page">
+<h1>Wallet</h1>
+<div class="balance"><small>Available balance</small><h2>₦<span id="walletBalance">0</span></h2><p>Pending balance: <b>₦<span id="walletPending">0</span></b></p><button class="btn-orange" onclick="openModal('withdrawModal')">⬆ Withdraw</button></div>
+<div class="stat"><div><span>Total Withdrawn</span><b>₦<span id="walletTotalWithdrawn">0</span></b></div><span>⬆️</span></div>
+<div class="row"><h3>Transaction History</h3></div><div id="txList"></div>
+</div>
+
+<div id="page-referrals" class="page">
+<h1>Referrals</h1>
+<div style="text-align:center;padding:10px"><div class="empty"><div class="ic">👥</div></div><h3>Invite & Earn</h3><p style="color:#666;font-size:13px;margin-top:8px">Get 10% of whatever your referral earns.</p></div>
+<div class="ref-link"><input id="refLink" value="https://taskall.com?ref=" readonly><button onclick="copyRef()">Copy</button></div>
+<div class="stat"><div><span>Your Referral Code</span><b id="myRefCode">-</b></div><span>🔗</span></div>
+<div class="stat"><div><span>Referral Earnings</span><b>10% per task</b></div><span>🧾</span></div>
+</div>
+
+<div id="page-profile" class="page">
+<h1>Profile</h1><h3>Personal Information</h3><p style="color:#666;font-size:13px;margin:4px 0 12px">Your account details on TaskAll.</p>
+<div class="form" style="border:1px solid #eee;border-radius:16px;padding:16px">
+<label>Full Name</label><input id="profileName" value="">
+<label>Email Address</label><input id="profileEmail" value="">
+<label>Username</label><input id="profileUser" value="">
+<label>Role</label><input id="profileRole" value="User" readonly>
+<label>Referral Code</label><input id="profileRef" value="" readonly>
+<button class="btn-orange" style="margin-top:16px" onclick="showToast('Profile saved on TaskAll')">Save Profile</button>
+</div>
+</div>
+
+<div id="sidebar" onclick="toggleSidebar(false)"><div class="side" onclick="event.stopPropagation()"><div class="logo" style="margin-bottom:20px">Task<span>All</span></div>
+<a href="#" data-nav="home" onclick="go('home');return false">🏠 Home</a><a href="#" data-nav="mytasks" onclick="go('mytasks');return false">📝 My Tasks</a><a href="#" data-nav="tasks" onclick="go('tasks');return false">🧾 Tasks</a><a href="#" data-nav="wallet" onclick="go('wallet');return false">💰 Withdraw</a><a href="#" data-nav="referrals" onclick="go('referrals');return false">👥 Referrals</a><a href="#" id="adminLink" style="display:none" data-nav="admin" onclick="go('admin');return false">🛡️ Admin Panel</a>
+<div style="margin-top:40px"><a href="#" data-nav="profile" onclick="go('profile');return false">👤 Profile</a><a href="#" onclick="doLogout();return false">↪ Logout</a></div></div></div>
+
+<nav><button onclick="go('home')" data-nav="home">🏠</button><button onclick="go('mytasks')" data-nav="mytasks">📝</button><button onclick="go('tasks')" data-nav="tasks">🧾</button><button onclick="go('wallet')" data-nav="wallet">💰</button><button onclick="go('admin')" id="bottomAdmin" style="display:none" data-nav="admin">🛡️</button><button onclick="go('profile')" data-nav="profile">👤</button></nav>
+
+<div id="createModal" class="modal"><div class="modal-box"><h3>+ Create Task</h3><div class="form"><label>Task Title</label><input id="newTitle" placeholder="e.g. Subscribe to YouTube Channel"><label>Platform</label><select id="newPlatform"><option>YouTube</option><option>Instagram</option><option>TikTok</option><option>Facebook</option></select><label>Pay per task (₦)</label><input id="newPay" type="number" value="6"><label>Total Slots</label><input id="newSlots" type="number" value="100"><label>Task Link</label><input id="newLink" placeholder="https://..."></div><button class="btn-orange" style="margin-top:16px" onclick="createTask()">Launch Campaign</button><button class="btn-outline" style="width:100%;margin-top:8px;border:0" onclick="closeModal('createModal')">Cancel</button></div></div>
+
+<div id="withdrawModal" class="modal"><div class="modal-box"><h3>Withdraw</h3><p style="font-size:13px;color:#666">Available: ₦<span class="wBal">0</span> • Minimum ₦500</p><div class="form"><label>Amount</label><input id="withdrawAmt" type="number" placeholder="500"><label>Bank / Account</label><input id="withdrawBank" placeholder="e.g. Opay - 810..."></div><button class="btn-orange" style="margin-top:16px" onclick="doWithdraw()">Request Withdrawal</button><button class="btn-outline" style="width:100%;margin-top:8px;border:0" onclick="closeModal('withdrawModal')">Cancel</button></div></div>
+
+<div id="depositModal" class="modal"><div class="modal-box"><h3>Deposit - Advertising Balance</h3><div class="form"><label>Amount</label><input id="depositAmt" type="number" placeholder="1000"></div><button class="btn-orange" style="margin-top:16px" onclick="doDeposit()">Deposit</button><button class="btn-outline" style="width:100%;margin-top:8px;border:0" onclick="closeModal('depositModal')">Cancel</button></div></div>
+
+<div id="verifyModal" class="modal"><div class="modal-box" style="text-align:center"><div style="font-size:40px">📧</div><h3 style="margin-top:8px">Check Your Email</h3><p style="font-size:13px;color:#666;margin:8px 0">We sent a 6-digit code to<br><b id="verifyEmailText">you@gmail.com</b></p><div class="form" style="text-align:left"><label>Enter 6-Digit Code</label><input id="verifyCodeInput" type="text" maxlength="6" placeholder="e.g. 482913" style="text-align:center;font-size:22px;letter-spacing:8px;font-weight:900"></div><p id="verifyTimer" style="font-size:12px;color:#888;margin-top:8px">Code expires in 05:00</p><button class="btn-orange" style="margin-top:12px" onclick="verifyCode()">Verify & Continue</button><button class="btn-outline" style="width:100%;margin-top:8px;border:0" onclick="resendCode()">Resend Code</button><p style="font-size:11px;color:#999;margin-top:10px">Didn't get it? Check spam folder.</p></div></div>
+
+<div id="toast" class="toast"></div>
+<script>
+const API = 'http://localhost:3000/api';
+// LIVE: const API = 'https://taskall-backend.onrender.com/api';
+const ADMIN_EMAIL = 'markobinna120@gmail.com';
+let TOKEN = localStorage.getItem('taskall_token') || '';
+let currentUser = null, isAdmin = false;
+let tasks = [], myTasks = [], txs = [];
+
+let pendingCode = '', pendingAction = '', pendingUserData = null, codeExpiry = 0, timerInterval = null;
+function generateCode(){ return Math.floor(100000 + Math.random()*900000).toString(); }
+async function sendVerificationEmail(email, name){
+  pendingCode = generateCode(); codeExpiry = Date.now() + 5*60*1000;
+  console.log('TaskAll Code for', email, 'is', pendingCode);
+  try{ await emailjs.send(EMAILJS_SERVICE, EMAILJS_TEMPLATE, { to_email: email, to_name: name || email, code: pendingCode, from_name: 'TaskAll', reply_to: 'markobinna120@gmail.com' }); showToast('Verification code sent to ' + email); return true; }
+  catch(err){ console.error(err); showToast('Email failed, check console for code'); return true; }
+}
+function openVerifyModal(email){ document.getElementById('verifyEmailText').textContent = email; document.getElementById('verifyCodeInput').value=''; document.getElementById('verifyModal').classList.add('open'); startVerifyTimer(); }
+function startVerifyTimer(){ clearInterval(timerInterval); let left=300; timerInterval=setInterval(()=>{ left--; let m=Math.floor(left/60).toString().padStart(2,'0'); let s=(left%60).toString().padStart(2,'0'); document.getElementById('verifyTimer').textContent='Code expires in '+m+':'+s; if(left<=0){ clearInterval(timerInterval); document.getElementById('verifyTimer').textContent='Code expired - tap Resend'; } },1000); }
+async function sendCodeAndSignup(){
+  const name=document.getElementById('regName').value.trim(); const email=document.getElementById('regEmail').value.trim().toLowerCase(); const username=document.getElementById('regUsername').value.trim(); const password=document.getElementById('regPass').value; const ref=document.getElementById('regRef').value.trim();
+  if(!name||!email||!password) return showToast('Fill name, email, password');
+  if(email===ADMIN_EMAIL) return showToast('This email is reserved for Admin');
+  if(!email.includes('@')) return showToast('Enter valid email');
+  pendingAction='signup'; pendingUserData={name,email,username,password,ref};
+  showToast('Sending code...'); await sendVerificationEmail(email,name); openVerifyModal(email);
+}
+async function sendCodeAndLogin(){
+  const email=document.getElementById('loginUser').value.trim().toLowerCase(); const password=document.getElementById('loginPass').value;
+  if(!email||!password) return showToast('Fill email + password');
+  if(email===ADMIN_EMAIL){ doLogin(); return; }
+  pendingAction='login'; pendingUserData={email,password};
+  showToast('Sending code...'); await sendVerificationEmail(email,email); openVerifyModal(email);
+}
+async function verifyCode(){
+  const entered=document.getElementById('verifyCodeInput').value.trim();
+  if(entered.length!==6) return showToast('Enter 6-digit code');
+  if(Date.now()>codeExpiry) return showToast('Code expired, resend');
+  if(entered!==pendingCode) return showToast('Wrong code, try again');
+  clearInterval(timerInterval); document.getElementById('verifyModal').classList.remove('open'); showToast('✅ Verified!');
+  if(pendingAction==='signup'){ const {name,email,username,password,ref}=pendingUserData; try{ const r=await api('/register','POST',{name,email,username,password,ref}); TOKEN=r.token; localStorage.setItem('taskall_token',TOKEN); await loadMe(); showToast('Welcome to TaskAll! 🎉'); }catch(e){ showToast(e.message); } }
+  else if(pendingAction==='login'){ const {email,password}=pendingUserData; try{ const r=await api('/login','POST',{email,password}); TOKEN=r.token; localStorage.setItem('taskall_token',TOKEN); await loadMe(); }catch(e){ showToast(e.message); } }
+}
+async function resendCode(){ if(!pendingUserData) return; const email=pendingUserData.email; const name=pendingUserData.name||email; showToast('Resending code...'); await sendVerificationEmail(email,name); startVerifyTimer(); }
+
+async function api(path, method='GET', body){
+  const res = await fetch(API+path, { method, headers: {'Content-Type':'application/json', 'Authorization': TOKEN ? 'Bearer '+TOKEN : ''}, body: body ? JSON.stringify(body) : undefined });
+  const data = await res.json().catch(()=>({}));
+  if(res.status===401){ doLogout(); throw new Error('Login expired'); }
+  if(data.error) throw new Error(data.error);
+  return data;
+}
+function toggleAuth(isLogin){ document.getElementById('loginBox').style.display=isLogin?'block':'none'; document.getElementById('signupBox').style.display=isLogin?'none':'block'; }
+async function doLogin(){ const email=document.getElementById('loginUser').value.trim().toLowerCase(); const password=document.getElementById('loginPass').value; if(!email||!password) return showToast('Fill email + password'); try{ const r=await api('/login','POST',{email,password}); TOKEN=r.token; localStorage.setItem('taskall_token',TOKEN); await loadMe(); }catch(e){ showToast(e.message); } }
+async function loadMe(){ try{ currentUser = await api('/me'); isAdmin = currentUser.email===ADMIN_EMAIL || currentUser.role==='admin'; document.getElementById('profileName').value=currentUser.name||''; document.getElementById('profileEmail').value=currentUser.email||''; document.getElementById('profileUser').value=currentUser.username||''; document.getElementById('profileRole').value=isAdmin?'Admin':'User'; document.getElementById('profileRef').value=currentUser.ref_code||''; document.getElementById('myRefCode').textContent=currentUser.ref_code||'-'; document.getElementById('refLink').value='https://taskall.com?ref='+(currentUser.ref_code||''); updateBalances(); if(isAdmin){ document.getElementById('adminBadge').style.display='inline-block'; document.getElementById('adminLink').style.display='flex'; document.getElementById('bottomAdmin').style.display='block'; go('admin'); } else { document.getElementById('adminBadge').style.display='none'; document.getElementById('adminLink').style.display='none'; document.getElementById('bottomAdmin').style.display='none'; go('home'); } await loadTasks(); await loadTx(); }catch(e){ showToast(e.message); } }
+function doLogout(){ TOKEN=''; currentUser=null; isAdmin=false; localStorage.removeItem('taskall_token'); document.getElementById('adminBadge').style.display='none'; document.getElementById('adminLink').style.display='none'; document.getElementById('bottomAdmin').style.display='none'; go('auth'); }
+function go(page){ document.querySelectorAll('.page').forEach(p=>p.classList.remove('active')); document.getElementById('page-'+page).classList.add('active'); document.querySelectorAll('[data-nav]').forEach(b=>b.classList.toggle('active', b.dataset.nav===page)); toggleSidebar(false); window.scrollTo(0,0); if(page==='mytasks') renderMyTasks(); if(page==='wallet') loadTx(); if(page==='admin') renderAdmin(); }
+function toggleSidebar(open){ document.getElementById('sidebar').classList.toggle('open', open); }
+function openModal(id){ document.getElementById(id).classList.add('open'); }
+function closeModal(id){ document.getElementById(id).classList.remove('open'); }
+function showToast(msg){ let t=document.getElementById('toast'); t.textContent=msg; t.style.display='block'; setTimeout(()=>t.style.display='none',3000); }
+function copyRef(){ navigator.clipboard.writeText(document.getElementById('refLink').value); showToast('TaskAll referral link copied!'); }
+function iconFor(p){ return p==='YouTube'?'▶️':p==='Instagram'?'📸':p==='TikTok'?'🎵':p==='Facebook'?'📘':'✅'; }
+function updateBalances(){ if(!currentUser) return; document.getElementById('earnBalance').textContent=currentUser.earning_balance||0; document.getElementById('walletBalance').textContent=currentUser.earning_balance||0; document.querySelector('.wBal').textContent=currentUser.earning_balance||0; document.getElementById('adBalance').textContent=currentUser.ad_balance||0; document.getElementById('walletTotalWithdrawn').textContent=currentUser.total_withdrawn||0; }
+async function loadTasks(){ try{ tasks=await api('/tasks'); renderTasks(); if(isAdmin) renderAdminTasksOnly(); }catch(e){ console.log(e); } }
+function taskCard(t){ return `<div class="card"><div class="thumb">${iconFor(t.platform)}</div><div style="flex:1"><small>${t.platform} • Task</small><h3>${t.title}</h3><span class="pill">👥 ${t.slots_left} slots left</span> <span class="pill">🕒 Verification in 24-48h</span><div class="card-foot"><div><small>Earn</small><br><b>₦${t.pay}</b></div><button class="btn-outline" onclick="startTask(${t.id})">Start Task</button></div></div></div>`; }
+function renderTasks(){ let q=(document.getElementById('searchInput')?.value||'').toLowerCase(); let list=tasks.filter(t=>(t.title+t.platform).toLowerCase().includes(q)); document.getElementById('tasksList').innerHTML=list.map(taskCard).join('')||'<p style="text-align:center;color:#888">No tasks found</p>'; document.getElementById('suggestedList').innerHTML=tasks.slice(0,3).map(taskCard).join(''); }
+async function startTask(id){ if(!TOKEN) return showToast('Login first'); const t=tasks.find(x=>x.id===id); if(t && t.link) window.open(t.link,'_blank'); const proof=prompt('Complete the task, then paste proof link:'); if(!proof) return; try{ await api('/proofs','POST',{task_id:id, proof_text:proof}); showToast('Proof sent to Admin!'); await loadMe(); }catch(e){ showToast(e.message); } }
+async function createTask(){ const title=document.getElementById('newTitle').value||'New Task'; const pay=parseInt(document.getElementById('newPay').value||6); const slots=parseInt(document.getElementById('newSlots').value||100); const platform=document.getElementById('newPlatform').value; const link=document.getElementById('newLink').value; try{ await api('/tasks','POST',{title,platform,pay,slots,link}); closeModal('createModal'); showToast('Task created!'); await loadMe(); await loadTasks(); renderMyTasks(); }catch(e){ showToast(e.message); } }
+function renderMyTasks(){ document.getElementById('activeCount').textContent=myTasks.length; document.getElementById('myTasksList').innerHTML=myTasks.length?myTasks.map(t=>`<div class="card"><div class="thumb">${iconFor(t.platform)}</div><div style="flex:1"><small>${t.platform}</small><h3>${t.title}</h3><div class="card-foot"><span>₦${t.pay} • ${t.slots} slots</span><span class="badge">Active</span></div></div></div>`).join(''):`<div class="empty"><div class="ic">📋</div><h3>No Tasks Yet</h3><p style="font-size:13px">Tap "Create Task" to launch your first campaign.</p></div>`; }
+async function loadTx(){ try{ txs=await api('/transactions'); renderTx(); }catch(e){} }
+function renderTx(){ document.getElementById('txList').innerHTML=txs.length?txs.map(t=>`<div class="tx"><div><span class="badge">${t.status}</span><div style="margin-top:6px"><b>${t.type}</b><br><small style="color:#888">${t.created_at?.slice(0,10)} • ID: ${t.id}</small></div></div><b>${t.amount<0?'-₦'+Math.abs(t.amount):'+₦'+t.amount}</b></div>`).join(''):'<p style="text-align:center;color:#888">No transactions yet</p>'; }
+async function doWithdraw(){ const amt=parseInt(document.getElementById('withdrawAmt').value||0); const bank=document.getElementById('withdrawBank').value||'No bank'; try{ await api('/withdraw','POST',{amount:amt,bank}); closeModal('withdrawModal'); showToast('Withdrawal sent to Admin!'); await loadMe(); }catch(e){ showToast(e.message); } }
+async function doDeposit(){ const amt=parseInt(document.getElementById('depositAmt').value||0); try{ await api('/deposit','POST',{amount:amt}); closeModal('depositModal'); showToast(`₦${amt} deposited`); await loadMe(); }catch(e){ showToast(e.message); } }
+function switchAdminTab(tab){ ['proofs','withdrawals','users'].forEach(t=>{ document.getElementById('admin-'+t).style.display=t===tab?'block':'none'; document.getElementById('tab-'+t).classList.toggle('active', t===tab); }); }
+async function renderAdmin(){ if(!isAdmin) return; try{ const stats=await api('/admin/stats'); document.getElementById('adminUsers').textContent=stats.users; document.getElementById('adminPending').textContent=stats.pendingProofs; document.getElementById('adminWithdraw').textContent=stats.pendingWithdrawals; document.getElementById('adminPaid').textContent=stats.totalPaid; const proofsAdmin=await api('/admin/proofs'); const withdrawalsAdmin=await api('/admin/withdrawals'); const usersAdmin=await api('/admin/users'); document.getElementById('admin-proofs').innerHTML=proofsAdmin.length?proofsAdmin.map(p=>`<div class="admin-card"><b>${p.task_title}</b><br><small>${p.user_email} • Pay ₦${p.pay}</small><br><small style="color:#FF6B00">Proof: ${p.proof_text}</small><div style="display:flex;gap:8px;margin-top:10px"><button class="btn-green" onclick="adminProof(${p.id},'approve')">✓ Approve</button></div><button class="btn-red" onclick="adminProof(${p.id},'reject')">✕ Reject</button></div>`).join(''):'<p>No pending proofs 🎉</p>'; document.getElementById('admin-withdrawals').innerHTML=withdrawalsAdmin.length?withdrawalsAdmin.map(w=>`<div class="admin-card"><b>₦${w.amount} Withdrawal</b><br><small>${w.user_email}</small><br><small>${w.bank}</small><div style="display:flex;gap:8px;margin-top:10px"><button class="btn-green" onclick="adminWithdrawal(${w.id},'approve')">✓ Approve & Pay</button></div><button class="btn-red" onclick="adminWithdrawal(${w.id},'reject')">✕ Reject</button></div>`).join(''):'<p>No pending withdrawals 🎉</p>'; document.getElementById('admin-users').innerHTML=usersAdmin.map(u=>`<div class="tx"><div><b>${u.name}</b><br><small>${u.email} • ${u.role}</small></div><b>₦${u.earning_balance}</b></div>`).join(''); renderAdminTasksOnly(); }catch(e){ console.log(e); } }
+function renderAdminTasksOnly(){ document.getElementById('adminTasksList').innerHTML=tasks.map(t=>`<div class="card"><div class="thumb">${iconFor(t.platform)}</div><div style="flex:1"><small>${t.platform}</small><h3>${t.title}</h3><div class="card-foot"><span>₦${t.pay} • ${t.slots_left} left</span><button class="btn-outline" onclick="deleteTask(${t.id})">Delete</button></div></div></div>`).join(''); }
+async function adminProof(id,action){ try{ await api(`/admin/proofs/${id}/${action}`,'POST'); showToast('Proof '+action+'d'); renderAdmin(); }catch(e){ showToast(e.message); } }
+async function adminWithdrawal(id,action){ try{ await api(`/admin/withdrawals/${id}/${action}`,'POST'); showToast('Withdrawal '+action+'d'); renderAdmin(); }catch(e){ showToast(e.message); } }
+async function deleteTask(id){ if(!confirm('Delete this task?')) return; try{ await api(`/tasks/${id}`,'DELETE'); showToast('Task deleted'); loadTasks(); }catch(e){ showToast(e.message); } }
+if(TOKEN){ loadMe(); } else { loadTasks(); }
+</script>
+</body>
+</html>
